@@ -641,6 +641,23 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
 .btn-clear-custom:hover{border-color:var(--accent);color:var(--accent)}
 .custom-text-count{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-left:auto}
 
+/* ===== AI PASSAGE GENERATOR ===== */
+.custom-mode-tabs{display:flex;gap:8px;margin-bottom:4px}
+.custom-mode-tab{padding:8px 16px;border-radius:3px;background:var(--surface);color:var(--muted);font-family:var(--ui);font-weight:600;font-size:.8rem;border:1px solid var(--line);cursor:pointer}
+.custom-mode-tab.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.ai-gen-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:12px}
+.ai-gen-panel.hide{display:none}
+.ai-gen-label{font-size:.68rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;margin-bottom:6px;display:block}
+#aiTopicInput{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;font-family:var(--ui);font-size:.85rem;color:var(--ink)}
+#aiTopicInput:focus{outline:none;border-color:var(--accent)}
+.ai-gen-row{display:flex;gap:12px}
+.ai-gen-col{flex:1}
+.ai-gen-col select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:9px 10px;font-family:var(--ui);font-size:.82rem;color:var(--ink)}
+.btn-generate-ai{width:100%;padding:11px;border-radius:3px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:.85rem;border:none;cursor:pointer}
+.btn-generate-ai:hover{opacity:.9}
+.btn-generate-ai:disabled{opacity:.6;cursor:not-allowed}
+.ai-gen-status{font-size:.72rem;color:var(--muted);min-height:14px}
+
 .kb-layout-select{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:5px 8px;font-family:var(--mono);font-size:.72rem;color:var(--ink);cursor:pointer}
 .kb-layout-select:focus{outline:none;border-color:var(--accent)}
 </style>
@@ -884,6 +901,37 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
       <span class="exam-toggle-hint" id="examHint">OFF — corrections allowed</span>
     </div>
     <div class="row custom-text-row hide" id="customTextRow">
+      <div class="custom-mode-tabs">
+        <button class="custom-mode-tab on" id="pasteModeTab">Paste text</button>
+        <button class="custom-mode-tab" id="aiModeTab">✨ Generate with AI</button>
+      </div>
+      <div class="ai-gen-panel hide" id="aiGenPanel">
+        <div>
+          <span class="ai-gen-label">Topic or concept</span>
+          <input id="aiTopicInput" type="text" placeholder="e.g. Process costing — normal and abnormal loss" maxlength="200" />
+        </div>
+        <div class="ai-gen-row">
+          <div class="ai-gen-col">
+            <span class="ai-gen-label">Subject</span>
+            <select id="aiSubjectSelect">
+              <option>Cost &amp; Management Accounting</option>
+              <option>Auditing &amp; Ethics</option>
+              <option>FM &amp; Strategic Management</option>
+              <option>General</option>
+            </select>
+          </div>
+          <div class="ai-gen-col">
+            <span class="ai-gen-label">Length</span>
+            <select id="aiLengthSelect">
+              <option value="short">Short (60s)</option>
+              <option value="medium" selected>Medium (2 min)</option>
+              <option value="long">Long (5 min)</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-generate-ai" id="btnGenerateAi">Generate passage</button>
+        <div class="ai-gen-status" id="aiGenStatus"></div>
+      </div>
       <textarea id="customTextInput" placeholder="Paste or type any text here — a paragraph from your notes, an ICAI passage, anything. Then click 'Load & Practice'." rows="4"></textarea>
       <div class="custom-text-actions">
         <button class="btn-load-custom" id="loadCustomBtn">Load &amp; Practice</button>
@@ -2837,6 +2885,86 @@ document.querySelectorAll("[data-mode]").forEach(function(c){
     clearBtn.onclick=function(){
       input.value="";customWords=null;
       if(countEl)countEl.textContent="0 words";
+    };
+  }
+})();
+// AI passage generation
+(function(){
+  var SUPABASE_FUNCTION_URL="https://didxvmlgloicqkoynzxl.supabase.co/functions/v1/generate-passage";
+  var GENERATE_COOLDOWN_MS=15000;
+  var lastGenerateTime=0;
+
+  var pasteTab=document.getElementById("pasteModeTab");
+  var aiTab=document.getElementById("aiModeTab");
+  var aiPanel=document.getElementById("aiGenPanel");
+  var textarea=document.getElementById("customTextInput");
+  var actionsRow=document.querySelector(".custom-text-actions");
+  var genBtn=document.getElementById("btnGenerateAi");
+  var statusEl=document.getElementById("aiGenStatus");
+
+  if(pasteTab&&aiTab){
+    pasteTab.onclick=function(){
+      pasteTab.classList.add("on");aiTab.classList.remove("on");
+      if(aiPanel)aiPanel.classList.add("hide");
+      if(textarea)textarea.classList.remove("hide");
+      if(actionsRow)actionsRow.classList.remove("hide");
+    };
+    aiTab.onclick=function(){
+      aiTab.classList.add("on");pasteTab.classList.remove("on");
+      if(aiPanel)aiPanel.classList.remove("hide");
+      if(textarea)textarea.classList.add("hide");
+      if(actionsRow)actionsRow.classList.add("hide");
+    };
+  }
+
+  if(genBtn){
+    genBtn.onclick=function(){
+      var topic=(document.getElementById("aiTopicInput")||{}).value||"";
+      topic=topic.trim();
+      var subject=(document.getElementById("aiSubjectSelect")||{}).value||"General";
+      var length=(document.getElementById("aiLengthSelect")||{}).value||"medium";
+
+      if(!topic){
+        if(statusEl)statusEl.textContent="Enter a topic first.";
+        return;
+      }
+
+      var now=Date.now();
+      if(now-lastGenerateTime<GENERATE_COOLDOWN_MS){
+        var wait=Math.ceil((GENERATE_COOLDOWN_MS-(now-lastGenerateTime))/1000);
+        if(statusEl)statusEl.textContent="Please wait "+wait+"s before generating again.";
+        return;
+      }
+
+      genBtn.disabled=true;
+      genBtn.textContent="Generating...";
+      if(statusEl)statusEl.textContent="";
+
+      fetch(SUPABASE_FUNCTION_URL,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({topic:topic,subject:subject,length:length})
+      }).then(function(res){
+        return res.json().then(function(data){return {ok:res.ok,data:data};});
+      }).then(function(result){
+        if(!result.ok||result.data.error){
+          if(statusEl)statusEl.textContent=result.data.error||"Generation failed. Try again.";
+          return;
+        }
+        if(textarea)textarea.value=result.data.passage;
+        var w=result.data.passage.trim().split(/\s+/).filter(Boolean).length;
+        if(countEl)countEl.textContent=w+" word"+(w===1?"":"s");
+        lastGenerateTime=Date.now();
+        if(statusEl)statusEl.textContent="";
+        if(pasteTab)pasteTab.click();
+        toast&&toast("Passage generated — "+w+" words. Click Load & Practice.");
+      }).catch(function(err){
+        console.error(err);
+        if(statusEl)statusEl.textContent="Network error. Try again.";
+      }).finally(function(){
+        genBtn.disabled=false;
+        genBtn.textContent="Generate passage";
+      });
     };
   }
 })();
