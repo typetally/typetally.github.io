@@ -874,9 +874,13 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
       <button class="chip on" data-mode="normal">Normal</button>
       <button class="chip" data-mode="finance">Finance &amp; Accounting</button>
       <button class="chip" data-mode="speed">Speed</button>
+      <button class="chip" data-mode="freestyle" title="Relaxed mode — mistakes don't stop your flow. Not counted on the leaderboard.">🌊 Freestyle</button>
       <button class="chip" data-mode="drill" id="drillChip" title="Generated from your past mistakes">Weakness drill</button>
       <button class="chip" data-mode="custom" id="customChip" title="Paste your own text to practice">📝 Custom text</button>
       <span class="difftag">difficulty: <b id="diffLabel">beginner</b> (auto)</span>
+    </div>
+    <div class="row hide" id="freestyleNote" style="color:var(--muted);font-size:.8rem">
+      🌊 Freestyle mode: mistakes don't count and don't interrupt your flow — just enjoy typing. Not eligible for the leaderboard.
     </div>
     <div class="row">
       <span class="lbl">Time</span>
@@ -1361,9 +1365,9 @@ async function saveToSupabase(test){
       id:currentUser.id,
       display_name:(currentUser.user_metadata&&currentUser.user_metadata.full_name)||currentUser.email.split("@")[0],
       difficulty:DB.difficulty,badges:DB.badges,days:DB.days,key_err:DB.keyErr,key_hit:DB.keyHit,
-      best_wpm:DB.tests.length?Math.max(...DB.tests.map(t=>t.wpm)):0,
+      best_wpm:(function(){var ranked=DB.tests.filter(function(t){return t.mode!=="freestyle";});return ranked.length?Math.max.apply(null,ranked.map(function(t){return t.wpm;})):0;})(),
       total_tests:DB.tests.length,
-      avg_acc:DB.tests.length?Math.round(DB.tests.reduce((s,t)=>s+t.acc,0)/DB.tests.length):0
+      avg_acc:(function(){var ranked=DB.tests.filter(function(t){return t.mode!=="freestyle";});return ranked.length?Math.round(ranked.reduce(function(s,t){return s+t.acc;},0)/ranked.length):0;})()
     });
     updateSaveBadge("ok");
   }catch(e){updateSaveBadge("warn");console.warn("Save error",e);}
@@ -1550,7 +1554,7 @@ function handleChar(typed){
   var ek=expected===" "?"space":expected.toLowerCase();
   testKeyHit[ek]=(testKeyHit[ek]||0)+1;
   if(dt<3000&&dt>50){slowSum[ek]=(slowSum[ek]||0)+dt;slowN[ek]=(slowN[ek]||0)+1;}
-  if(typed===expected){spans[idx].classList.add("ok");correct++;playKeySound(false);}
+  if(typed===expected||mode==="freestyle"){spans[idx].classList.add("ok");correct++;playKeySound(false);}
   else{
     spans[idx].classList.add("err");wrong++;
     testKeyErr[ek]=(testKeyErr[ek]||0)+1;
@@ -2852,6 +2856,8 @@ document.querySelectorAll("[data-mode]").forEach(function(c){
     document.querySelectorAll("[data-mode]").forEach(function(x){x.classList.remove("on");});
     c.classList.add("on");mode=c.dataset.mode;
     var ctr=document.getElementById("customTextRow");
+    var fsNote=document.getElementById("freestyleNote");
+    if(fsNote)fsNote.classList.toggle("hide",mode!=="freestyle");
     if(mode==="custom"){
       if(ctr)ctr.classList.remove("hide");
       // Don't start test until user loads text; if custom text already exists, start
@@ -2901,7 +2907,6 @@ document.querySelectorAll("[data-mode]").forEach(function(c){
   var actionsRow=document.querySelector(".custom-text-actions");
   var genBtn=document.getElementById("btnGenerateAi");
   var statusEl=document.getElementById("aiGenStatus");
-  var countEl=document.getElementById("customTextCount");
 
   if(pasteTab&&aiTab){
     pasteTab.onclick=function(){
@@ -3072,10 +3077,7 @@ ghost.addEventListener("select",function(){if(examMode){ghost.selectionStart=gho
 document.addEventListener("keydown",function(e){
   try{
     var vp=$("#viewPractice");
-    var ae=document.activeElement;
-    var aeTag=ae&&ae.tagName;
-    var isTypableField=ae&&(aeTag==="INPUT"||aeTag==="TEXTAREA"||aeTag==="SELECT"||ae.isContentEditable);
-    if(ae!==ghost&&!isTypableField&&e.key&&e.key.length===1&&!e.ctrlKey&&!e.metaKey&&vp&&!vp.classList.contains("hide")&&!finished)ghost.focus();
+    if(document.activeElement!==ghost&&e.key&&e.key.length===1&&!e.ctrlKey&&!e.metaKey&&vp&&!vp.classList.contains("hide")&&!finished)ghost.focus();
   }catch(err){}
 });
 ["loginEmail","loginPass"].forEach(function(id){
