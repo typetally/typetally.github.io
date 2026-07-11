@@ -3077,7 +3077,10 @@ ghost.addEventListener("select",function(){if(examMode){ghost.selectionStart=gho
 document.addEventListener("keydown",function(e){
   try{
     var vp=$("#viewPractice");
-    if(document.activeElement!==ghost&&e.key&&e.key.length===1&&!e.ctrlKey&&!e.metaKey&&vp&&!vp.classList.contains("hide")&&!finished)ghost.focus();
+    var ae=document.activeElement;
+    var aeTag=ae&&ae.tagName;
+    var isTypableField=ae&&(aeTag==="INPUT"||aeTag==="TEXTAREA"||aeTag==="SELECT"||ae.isContentEditable);
+    if(ae!==ghost&&!isTypableField&&e.key&&e.key.length===1&&!e.ctrlKey&&!e.metaKey&&vp&&!vp.classList.contains("hide")&&!finished)ghost.focus();
   }catch(err){}
 });
 ["loginEmail","loginPass"].forEach(function(id){
