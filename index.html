@@ -658,113 +658,6 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
 .btn-generate-ai:disabled{opacity:.6;cursor:not-allowed}
 .ai-gen-status{font-size:.72rem;color:var(--muted);min-height:14px}
 
-/* ===== FM REVISION (isolated section, own design system) ===== */
-#viewFMRev * { box-sizing: border-box; margin: 0; padding: 0; }
-#viewFMRev { font-family: 'Segoe UI', Arial, sans-serif; background: #F7F6F2; color: #1C1B3A; min-height: 100vh; }
-#viewFMRev .app { max-width: 760px; margin: 0 auto; padding: 16px; }
-#viewFMRev .header { background: #1C1B3A; border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
-#viewFMRev .header h1 { font-size: 18px; color: #fff; font-weight: 700; }
-#viewFMRev .header p { font-size: 12px; color: #AFA9EC; margin-top: 4px; }
-#viewFMRev .header-meta { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
-#viewFMRev .hbadge { background: rgba(255,255,255,0.12); border-radius: 20px; padding: 4px 12px;
-            font-size: 11px; color: #CECBF6; }
-#viewFMRev .tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-#viewFMRev .tab { padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600;
-         cursor: pointer; border: 1.5px solid transparent; transition: all .15s; background: #fff; color: #888; }
-#viewFMRev .tab.active { background: #6C63D5; color: #fff; border-color: #6C63D5; }
-#viewFMRev .progress-wrap { background: #fff; border-radius: 10px; padding: 14px 16px; margin-bottom: 14px;
-                   border: 1px solid #E2E0D8; }
-#viewFMRev .progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-#viewFMRev .progress-label { font-size: 12px; color: #888; }
-#viewFMRev .progress-val { font-size: 13px; font-weight: 700; color: #6C63D5; }
-#viewFMRev .prog-bar { height: 8px; background: #EEEDFB; border-radius: 10px; overflow: hidden; }
-#viewFMRev .prog-fill { height: 100%; background: linear-gradient(90deg,#6C63D5,#2A9D8F); border-radius: 10px; transition: width .4s; }
-#viewFMRev .score-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-top: 10px; }
-#viewFMRev .score-card { background: #F7F6F2; border-radius: 8px; padding: 8px; text-align: center; }
-#viewFMRev .score-num { font-size: 18px; font-weight: 700; }
-#viewFMRev .score-lbl { font-size: 10px; color: #888; margin-top: 2px; }
-#viewFMRev .card { background: #fff; border-radius: 12px; border: 1px solid #E2E0D8; padding: 20px; margin-bottom: 12px; }
-#viewFMRev .card-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 10px;
-              border-radius: 20px; margin-bottom: 10px; letter-spacing: .4px; }
-#viewFMRev .card-q { font-size: 14px; font-weight: 600; color: #1C1B3A; line-height: 1.5; margin-bottom: 14px; }
-#viewFMRev .card-sub { font-size: 12px; color: #888; margin-bottom: 12px; line-height: 1.5; }
-#viewFMRev .options { display: flex; flex-direction: column; gap: 8px; }
-#viewFMRev .opt { padding: 10px 14px; border-radius: 8px; border: 1.5px solid #E2E0D8;
-         font-size: 13px; cursor: pointer; transition: all .15s; background: #fff; text-align: left; }
-#viewFMRev .opt:hover:not(.locked) { border-color: #6C63D5; background: #EEEDFB; }
-#viewFMRev .opt.correct { border-color: #2A9D8F; background: #E8F5F4; color: #085041; font-weight: 600; }
-#viewFMRev .opt.wrong { border-color: #E76F51; background: #FDEEE9; color: #711B0C; }
-#viewFMRev .opt.reveal { border-color: #2A9D8F; background: #E8F5F4; color: #085041; }
-#viewFMRev .flashcard-wrap { perspective: 1000px; cursor: pointer; margin-bottom: 10px; }
-#viewFMRev .flashcard { width: 100%; min-height: 160px; position: relative; transform-style: preserve-3d;
-               transition: transform .5s; border-radius: 12px; }
-#viewFMRev .flashcard.flipped { transform: rotateY(180deg); }
-#viewFMRev .fc-front, #viewFMRev .fc-back { position: absolute; width: 100%; min-height: 160px; backface-visibility: hidden;
-                        border-radius: 12px; padding: 20px; display: flex; flex-direction: column;
-                        justify-content: center; align-items: center; text-align: center; }
-#viewFMRev .fc-front { background: #1C1B3A; color: #fff; }
-#viewFMRev .fc-back { background: #E8F5F4; color: #085041; transform: rotateY(180deg); }
-#viewFMRev .fc-front .fc-label { font-size: 10px; color: #AFA9EC; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-#viewFMRev .fc-front .fc-q { font-size: 14px; font-weight: 600; line-height: 1.5; }
-#viewFMRev .fc-back  .fc-label { font-size: 10px; color: #2A9D8F; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-#viewFMRev .fc-back  .fc-a { font-size: 13px; line-height: 1.6; white-space: pre-line; }
-#viewFMRev .fc-hint { font-size: 11px; color: #AFA9EC; margin-top: 8px; }
-#viewFMRev .fc-nav { display: flex; gap: 10px; justify-content: center; align-items: center; margin-top: 10px; }
-#viewFMRev .fc-btn { padding: 8px 20px; border-radius: 8px; border: 1.5px solid #E2E0D8; background: #fff;
-            font-size: 12px; font-weight: 600; cursor: pointer; color: #1C1B3A; transition: all .15s; }
-#viewFMRev .fc-btn:hover { background: #EEEDFB; border-color: #6C63D5; }
-#viewFMRev .fc-btn.knew { background: #E8F5F4; border-color: #2A9D8F; color: #085041; }
-#viewFMRev .fc-btn.didnt { background: #FDEEE9; border-color: #E76F51; color: #711B0C; }
-#viewFMRev .fc-counter { font-size: 12px; color: #888; }
-#viewFMRev .formula-box { background: #1C1B3A; border-radius: 10px; padding: 16px; margin-bottom: 10px; }
-#viewFMRev .formula-name { font-size: 11px; color: #AFA9EC; margin-bottom: 6px; }
-#viewFMRev .formula-val { font-size: 15px; color: #F4A261; font-weight: 700; font-family: 'Courier New', monospace; white-space: pre-line; }
-#viewFMRev .formula-desc { font-size: 11px; color: #888; margin-top: 6px; }
-#viewFMRev .reveal-btn { background: #6C63D5; color: #fff; border: none; border-radius: 8px;
-                padding: 10px 20px; font-size: 12px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 8px; }
-#viewFMRev .reveal-btn:hover { background: #5754C0; }
-#viewFMRev .hidden-formula { filter: blur(6px); user-select: none; transition: filter .3s; }
-#viewFMRev .hidden-formula.shown { filter: none; }
-#viewFMRev .exp-box { background: #EEEDFB; border-left: 3px solid #6C63D5; border-radius: 0 8px 8px 0;
-             padding: 10px 14px; margin-top: 10px; font-size: 12px; color: #3C3489; line-height: 1.6; display: none; }
-#viewFMRev .exp-box.show { display: block; }
-#viewFMRev .btn { padding: 10px 22px; border-radius: 8px; border: none; font-size: 13px;
-         font-weight: 700; cursor: pointer; transition: all .15s; }
-#viewFMRev .btn-primary { background: #6C63D5; color: #fff; }
-#viewFMRev .btn-primary:hover { background: #5754C0; }
-#viewFMRev .btn-outline { background: #fff; color: #6C63D5; border: 1.5px solid #6C63D5; }
-#viewFMRev .btn-outline:hover { background: #EEEDFB; }
-#viewFMRev .btn-teal { background: #2A9D8F; color: #fff; }
-#viewFMRev .btn-teal:hover { background: #1D8577; }
-#viewFMRev .sec-hdr { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase;
-             letter-spacing: 1px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-#viewFMRev .sec-hdr::after { content:''; flex:1; height:1px; background:#E2E0D8; }
-#viewFMRev .result-wrap { text-align: center; padding: 24px; }
-#viewFMRev .result-score { font-size: 48px; font-weight: 800; color: #6C63D5; }
-#viewFMRev .result-label { font-size: 14px; color: #888; margin-top: 4px; }
-#viewFMRev .result-msg { font-size: 15px; font-weight: 600; margin: 16px 0; }
-#viewFMRev .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
-#viewFMRev .rg-card { border-radius: 10px; padding: 12px; }
-#viewFMRev .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-#viewFMRev .chip { padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer;
-          border: 1.5px solid #E2E0D8; background: #fff; color: #666; }
-#viewFMRev .chip.active { background: #1C1B3A; color: #fff; border-color: #1C1B3A; }
-#viewFMRev .hidden { display: none; }
-#viewFMRev .flex-row { display: flex; gap: 8px; flex-wrap: wrap; }
-#viewFMRev .mt8 { margin-top: 8px; }
-#viewFMRev .mt12 { margin-top: 12px; }
-#viewFMRev .tag-ch1 { background: #EEEDFB; color: #3C3489; }
-#viewFMRev .tag-ch2 { background: #E8F5F4; color: #085041; }
-#viewFMRev .tag-ch3 { background: #FDEEE9; color: #711B0C; }
-#viewFMRev .tag-ch4 { background: #FEF3E8; color: #633806; }
-#viewFMRev .tag-ch5 { background: #E7F0FE; color: #12408C; }
-#viewFMRev .tag-ch6 { background: #FBE9F3; color: #7A1955; }
-#viewFMRev .tag-form { background: #FEF3E8; color: #633806; }
-
-
-
-.kb-layout-select{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:5px 8px;font-family:var(--mono);font-size:.72rem;color:var(--ink);cursor:pointer}
-.kb-layout-select:focus{outline:none;border-color:var(--accent)}
 </style>
 </head>
 <body>
@@ -931,7 +824,6 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
       <button id="navLB">Leaderboard</button>
       <button id="navAch">Achievements</button>
       <button id="navRev">📚 Revision</button>
-      <button id="navFMRev">📊 FM Revision</button>
     </nav>
     <div class="topright">
       <span class="savebadge ok" id="saveBadge">● saved</span>
@@ -1209,118 +1101,6 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
     </div>
   </div>
 
-  <div id="viewFMRev" class="hide">
-<div class="app">
-
-  <!-- Header -->
-  <div class="header">
-    <h1>📊 FM — Revision Session</h1>
-    <p>CA Inter · Financial Management · Group 2</p>
-    <div class="header-meta">
-      <span class="hbadge">Ratio Analysis</span>
-      <span class="hbadge">Cost of Capital</span>
-      <span class="hbadge">Capital Structure & Leverage</span>
-      <span class="hbadge">Capital Budgeting</span>
-      <span class="hbadge">Dividend Decision</span>
-      <span class="hbadge">Working Capital Mgmt</span>
-    </div>
-  </div>
-
-  <!-- Progress -->
-  <div class="progress-wrap">
-    <div class="progress-row">
-      <span class="progress-label">Overall Progress</span>
-      <span class="progress-val" id="prog-pct">0%</span>
-    </div>
-    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
-    <div class="score-grid">
-      <div class="score-card"><div class="score-num" id="sc-correct" style="color:#2A9D8F">0</div><div class="score-lbl">Correct</div></div>
-      <div class="score-card"><div class="score-num" id="sc-wrong"   style="color:#E76F51">0</div><div class="score-lbl">Wrong</div></div>
-      <div class="score-card"><div class="score-num" id="sc-skipped" style="color:#F4A261">0</div><div class="score-lbl">Skipped</div></div>
-      <div class="score-card"><div class="score-num" id="sc-total"   style="color:#6C63D5">0</div><div class="score-lbl">Attempted</div></div>
-    </div>
-  </div>
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <div class="tab active" onclick=\"fmShowTab('mcq', this)\">MCQ Practice</div>
-    <div class="tab" onclick=\"fmShowTab('flash', this)\">Flashcards</div>
-    <div class="tab" onclick=\"fmShowTab('formula', this)\">Formula Chart</div>
-    <div class="tab" onclick=\"fmShowTab('theory', this)\">Key Concepts</div>
-  </div>
-
-  <!-- ══════════════════════ MCQ TAB ══════════════════════ -->
-  <div id="tab-mcq">
-    <div class="sec-hdr">MCQ Practice — 30 Questions</div>
-
-    <div id="mcq-container"></div>
-
-    <div style="text-align:center; margin-top:16px;">
-      <button class="btn btn-primary" onclick="fmSubmitAll()">Submit All &amp; See Score</button>
-      <button class="btn btn-outline" style="margin-left:8px" onclick="fmResetMCQ()">Reset</button>
-    </div>
-
-    <div id="mcq-result" class="hidden card" style="margin-top:16px;">
-      <div class="result-wrap">
-        <div class="result-score" id="res-score"></div>
-        <div class="result-label">out of 30</div>
-        <div class="result-msg" id="res-msg"></div>
-        <div class="result-grid">
-          <div class="rg-card" style="background:#E8F5F4">
-            <div style="font-size:22px;font-weight:800;color:#2A9D8F" id="res-correct"></div>
-            <div style="font-size:11px;color:#085041">Correct</div>
-          </div>
-          <div class="rg-card" style="background:#FDEEE9">
-            <div style="font-size:22px;font-weight:800;color:#E76F51" id="res-wrong"></div>
-            <div style="font-size:11px;color:#711B0C">Wrong / Skipped</div>
-          </div>
-        </div>
-        <button class="btn btn-outline" onclick="fmResetMCQ()">Try Again</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════ FLASHCARD TAB ══════════════════════ -->
-  <div id="tab-flash" class="hidden">
-    <div class="sec-hdr">Flashcards — Click to reveal answer</div>
-    <div class="flashcard-wrap" onclick="fmFlipCard()">
-      <div class="flashcard" id="flashcard">
-        <div class="fc-front">
-          <div class="fc-label">Question</div>
-          <div class="fc-q" id="fc-question"></div>
-          <div class="fc-hint">Tap to reveal answer ↓</div>
-        </div>
-        <div class="fc-back">
-          <div class="fc-label">✓ Answer</div>
-          <div class="fc-a" id="fc-answer"></div>
-        </div>
-      </div>
-    </div>
-    <div class="fc-nav">
-      <button class="fc-btn didnt" onclick="fmFcKnew(false)">✗ Didn't know</button>
-      <span class="fc-counter" id="fc-counter">1 / 24</span>
-      <button class="fc-btn knew" onclick="fmFcKnew(true)">✓ Knew it</button>
-    </div>
-    <div style="margin-top:10px;text-align:center">
-      <span style="font-size:12px;color:#888">Knew: <b id="fc-knew-count" style="color:#2A9D8F">0</b> &nbsp;|&nbsp; Didn't know: <b id="fc-didnt-count" style="color:#E76F51">0</b></span>
-    </div>
-  </div>
-
-  <!-- ══════════════════════ FORMULA TAB ══════════════════════ -->
-  <div id="tab-formula" class="hidden">
-    <div class="sec-hdr">FM Formula Chart — Write each formula before revealing</div>
-    <div class="chip-row" id="chip-row"></div>
-    <div id="formula-container"></div>
-  </div>
-
-  <!-- ══════════════════════ THEORY TAB ══════════════════════ -->
-  <div id="tab-theory" class="hidden">
-    <div class="sec-hdr">Key Concepts — Quick Revision</div>
-    <div id="theory-container"></div>
-  </div>
-
-</div>
-  </div>
 
 </div>
 <div class="toast" id="toast"></div>
@@ -1958,9 +1738,9 @@ function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");
 
 /* ===== NAV ===== */
 function show(view){
-  ["p","d","l","a","r","f"].forEach(function(v){
-    var vmap={p:"viewPractice",d:"viewDash",l:"viewLB",a:"viewAch",r:"viewRev",f:"viewFMRev"};
-    var nmap={p:"navPractice",d:"navDash",l:"navLB",a:"navAch",r:"navRev",f:"navFMRev"};
+  ["p","d","l","a","r"].forEach(function(v){
+    var vmap={p:"viewPractice",d:"viewDash",l:"viewLB",a:"viewAch",r:"viewRev"};
+    var nmap={p:"navPractice",d:"navDash",l:"navLB",a:"navAch",r:"navRev"};
     $("#"+vmap[v]).classList.toggle("hide",v!==view);
     $("#"+nmap[v]).classList.toggle("on",v===view);
   });
@@ -1974,7 +1754,6 @@ $("#navDash").onclick=function(){show("d");};
 $("#navLB").onclick=function(){show("l");};
 $("#navAch").onclick=function(){show("a");};
 $("#navRev").onclick=function(){show("r");};
-$("#navFMRev").onclick=function(){show("f");};
 
 /* ===== REVISION DATA ===== */
 var SUBJECTS={
@@ -3310,3 +3089,6 @@ document.addEventListener("keydown",function(e){
   document.getElementById(id).addEventListener("keydown",function(e){if(e.key==="Enter")doSignup();});
 });
 
+</script>
+</body>
+</html>
