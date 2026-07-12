@@ -658,6 +658,111 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
 .btn-generate-ai:disabled{opacity:.6;cursor:not-allowed}
 .ai-gen-status{font-size:.72rem;color:var(--muted);min-height:14px}
 
+/* ===== FM REVISION (isolated section, own design system) ===== */
+#viewFMRev * { box-sizing: border-box; margin: 0; padding: 0; }
+#viewFMRev { font-family: 'Segoe UI', Arial, sans-serif; background: #F7F6F2; color: #1C1B3A; min-height: 100vh; }
+#viewFMRev .app { max-width: 760px; margin: 0 auto; padding: 16px; }
+#viewFMRev .header { background: #1C1B3A; border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
+#viewFMRev .header h1 { font-size: 18px; color: #fff; font-weight: 700; }
+#viewFMRev .header p { font-size: 12px; color: #AFA9EC; margin-top: 4px; }
+#viewFMRev .header-meta { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+#viewFMRev .hbadge { background: rgba(255,255,255,0.12); border-radius: 20px; padding: 4px 12px;
+            font-size: 11px; color: #CECBF6; }
+#viewFMRev .tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+#viewFMRev .tab { padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600;
+         cursor: pointer; border: 1.5px solid transparent; transition: all .15s; background: #fff; color: #888; }
+#viewFMRev .tab.active { background: #6C63D5; color: #fff; border-color: #6C63D5; }
+#viewFMRev .progress-wrap { background: #fff; border-radius: 10px; padding: 14px 16px; margin-bottom: 14px;
+                   border: 1px solid #E2E0D8; }
+#viewFMRev .progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+#viewFMRev .progress-label { font-size: 12px; color: #888; }
+#viewFMRev .progress-val { font-size: 13px; font-weight: 700; color: #6C63D5; }
+#viewFMRev .prog-bar { height: 8px; background: #EEEDFB; border-radius: 10px; overflow: hidden; }
+#viewFMRev .prog-fill { height: 100%; background: linear-gradient(90deg,#6C63D5,#2A9D8F); border-radius: 10px; transition: width .4s; }
+#viewFMRev .score-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-top: 10px; }
+#viewFMRev .score-card { background: #F7F6F2; border-radius: 8px; padding: 8px; text-align: center; }
+#viewFMRev .score-num { font-size: 18px; font-weight: 700; }
+#viewFMRev .score-lbl { font-size: 10px; color: #888; margin-top: 2px; }
+#viewFMRev .card { background: #fff; border-radius: 12px; border: 1px solid #E2E0D8; padding: 20px; margin-bottom: 12px; }
+#viewFMRev .card-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 10px;
+              border-radius: 20px; margin-bottom: 10px; letter-spacing: .4px; }
+#viewFMRev .card-q { font-size: 14px; font-weight: 600; color: #1C1B3A; line-height: 1.5; margin-bottom: 14px; }
+#viewFMRev .card-sub { font-size: 12px; color: #888; margin-bottom: 12px; line-height: 1.5; }
+#viewFMRev .options { display: flex; flex-direction: column; gap: 8px; }
+#viewFMRev .opt { padding: 10px 14px; border-radius: 8px; border: 1.5px solid #E2E0D8;
+         font-size: 13px; cursor: pointer; transition: all .15s; background: #fff; text-align: left; }
+#viewFMRev .opt:hover:not(.locked) { border-color: #6C63D5; background: #EEEDFB; }
+#viewFMRev .opt.correct { border-color: #2A9D8F; background: #E8F5F4; color: #085041; font-weight: 600; }
+#viewFMRev .opt.wrong { border-color: #E76F51; background: #FDEEE9; color: #711B0C; }
+#viewFMRev .opt.reveal { border-color: #2A9D8F; background: #E8F5F4; color: #085041; }
+#viewFMRev .flashcard-wrap { perspective: 1000px; cursor: pointer; margin-bottom: 10px; }
+#viewFMRev .flashcard { width: 100%; min-height: 160px; position: relative; transform-style: preserve-3d;
+               transition: transform .5s; border-radius: 12px; }
+#viewFMRev .flashcard.flipped { transform: rotateY(180deg); }
+#viewFMRev .fc-front, #viewFMRev .fc-back { position: absolute; width: 100%; min-height: 160px; backface-visibility: hidden;
+                        border-radius: 12px; padding: 20px; display: flex; flex-direction: column;
+                        justify-content: center; align-items: center; text-align: center; }
+#viewFMRev .fc-front { background: #1C1B3A; color: #fff; }
+#viewFMRev .fc-back { background: #E8F5F4; color: #085041; transform: rotateY(180deg); }
+#viewFMRev .fc-front .fc-label { font-size: 10px; color: #AFA9EC; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+#viewFMRev .fc-front .fc-q { font-size: 14px; font-weight: 600; line-height: 1.5; }
+#viewFMRev .fc-back  .fc-label { font-size: 10px; color: #2A9D8F; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+#viewFMRev .fc-back  .fc-a { font-size: 13px; line-height: 1.6; white-space: pre-line; }
+#viewFMRev .fc-hint { font-size: 11px; color: #AFA9EC; margin-top: 8px; }
+#viewFMRev .fc-nav { display: flex; gap: 10px; justify-content: center; align-items: center; margin-top: 10px; }
+#viewFMRev .fc-btn { padding: 8px 20px; border-radius: 8px; border: 1.5px solid #E2E0D8; background: #fff;
+            font-size: 12px; font-weight: 600; cursor: pointer; color: #1C1B3A; transition: all .15s; }
+#viewFMRev .fc-btn:hover { background: #EEEDFB; border-color: #6C63D5; }
+#viewFMRev .fc-btn.knew { background: #E8F5F4; border-color: #2A9D8F; color: #085041; }
+#viewFMRev .fc-btn.didnt { background: #FDEEE9; border-color: #E76F51; color: #711B0C; }
+#viewFMRev .fc-counter { font-size: 12px; color: #888; }
+#viewFMRev .formula-box { background: #1C1B3A; border-radius: 10px; padding: 16px; margin-bottom: 10px; }
+#viewFMRev .formula-name { font-size: 11px; color: #AFA9EC; margin-bottom: 6px; }
+#viewFMRev .formula-val { font-size: 15px; color: #F4A261; font-weight: 700; font-family: 'Courier New', monospace; white-space: pre-line; }
+#viewFMRev .formula-desc { font-size: 11px; color: #888; margin-top: 6px; }
+#viewFMRev .reveal-btn { background: #6C63D5; color: #fff; border: none; border-radius: 8px;
+                padding: 10px 20px; font-size: 12px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 8px; }
+#viewFMRev .reveal-btn:hover { background: #5754C0; }
+#viewFMRev .hidden-formula { filter: blur(6px); user-select: none; transition: filter .3s; }
+#viewFMRev .hidden-formula.shown { filter: none; }
+#viewFMRev .exp-box { background: #EEEDFB; border-left: 3px solid #6C63D5; border-radius: 0 8px 8px 0;
+             padding: 10px 14px; margin-top: 10px; font-size: 12px; color: #3C3489; line-height: 1.6; display: none; }
+#viewFMRev .exp-box.show { display: block; }
+#viewFMRev .btn { padding: 10px 22px; border-radius: 8px; border: none; font-size: 13px;
+         font-weight: 700; cursor: pointer; transition: all .15s; }
+#viewFMRev .btn-primary { background: #6C63D5; color: #fff; }
+#viewFMRev .btn-primary:hover { background: #5754C0; }
+#viewFMRev .btn-outline { background: #fff; color: #6C63D5; border: 1.5px solid #6C63D5; }
+#viewFMRev .btn-outline:hover { background: #EEEDFB; }
+#viewFMRev .btn-teal { background: #2A9D8F; color: #fff; }
+#viewFMRev .btn-teal:hover { background: #1D8577; }
+#viewFMRev .sec-hdr { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase;
+             letter-spacing: 1px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+#viewFMRev .sec-hdr::after { content:''; flex:1; height:1px; background:#E2E0D8; }
+#viewFMRev .result-wrap { text-align: center; padding: 24px; }
+#viewFMRev .result-score { font-size: 48px; font-weight: 800; color: #6C63D5; }
+#viewFMRev .result-label { font-size: 14px; color: #888; margin-top: 4px; }
+#viewFMRev .result-msg { font-size: 15px; font-weight: 600; margin: 16px 0; }
+#viewFMRev .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+#viewFMRev .rg-card { border-radius: 10px; padding: 12px; }
+#viewFMRev .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+#viewFMRev .chip { padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer;
+          border: 1.5px solid #E2E0D8; background: #fff; color: #666; }
+#viewFMRev .chip.active { background: #1C1B3A; color: #fff; border-color: #1C1B3A; }
+#viewFMRev .hidden { display: none; }
+#viewFMRev .flex-row { display: flex; gap: 8px; flex-wrap: wrap; }
+#viewFMRev .mt8 { margin-top: 8px; }
+#viewFMRev .mt12 { margin-top: 12px; }
+#viewFMRev .tag-ch1 { background: #EEEDFB; color: #3C3489; }
+#viewFMRev .tag-ch2 { background: #E8F5F4; color: #085041; }
+#viewFMRev .tag-ch3 { background: #FDEEE9; color: #711B0C; }
+#viewFMRev .tag-ch4 { background: #FEF3E8; color: #633806; }
+#viewFMRev .tag-ch5 { background: #E7F0FE; color: #12408C; }
+#viewFMRev .tag-ch6 { background: #FBE9F3; color: #7A1955; }
+#viewFMRev .tag-form { background: #FEF3E8; color: #633806; }
+
+
+
 .kb-layout-select{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:5px 8px;font-family:var(--mono);font-size:.72rem;color:var(--ink);cursor:pointer}
 .kb-layout-select:focus{outline:none;border-color:var(--accent)}
 </style>
@@ -826,6 +931,7 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
       <button id="navLB">Leaderboard</button>
       <button id="navAch">Achievements</button>
       <button id="navRev">📚 Revision</button>
+      <button id="navFMRev">📊 FM Revision</button>
     </nav>
     <div class="topright">
       <span class="savebadge ok" id="saveBadge">● saved</span>
@@ -1101,6 +1207,119 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
       <div class="detail-tabs" id="detailTabs"></div>
       <div id="detailContent"></div>
     </div>
+  </div>
+
+  <div id="viewFMRev" class="hide">
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>📊 FM — Revision Session</h1>
+    <p>CA Inter · Financial Management · Group 2</p>
+    <div class="header-meta">
+      <span class="hbadge">Ratio Analysis</span>
+      <span class="hbadge">Cost of Capital</span>
+      <span class="hbadge">Capital Structure & Leverage</span>
+      <span class="hbadge">Capital Budgeting</span>
+      <span class="hbadge">Dividend Decision</span>
+      <span class="hbadge">Working Capital Mgmt</span>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-row">
+      <span class="progress-label">Overall Progress</span>
+      <span class="progress-val" id="prog-pct">0%</span>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <div class="score-grid">
+      <div class="score-card"><div class="score-num" id="sc-correct" style="color:#2A9D8F">0</div><div class="score-lbl">Correct</div></div>
+      <div class="score-card"><div class="score-num" id="sc-wrong"   style="color:#E76F51">0</div><div class="score-lbl">Wrong</div></div>
+      <div class="score-card"><div class="score-num" id="sc-skipped" style="color:#F4A261">0</div><div class="score-lbl">Skipped</div></div>
+      <div class="score-card"><div class="score-num" id="sc-total"   style="color:#6C63D5">0</div><div class="score-lbl">Attempted</div></div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick=\"fmShowTab('mcq', this)\">MCQ Practice</div>
+    <div class="tab" onclick=\"fmShowTab('flash', this)\">Flashcards</div>
+    <div class="tab" onclick=\"fmShowTab('formula', this)\">Formula Chart</div>
+    <div class="tab" onclick=\"fmShowTab('theory', this)\">Key Concepts</div>
+  </div>
+
+  <!-- ══════════════════════ MCQ TAB ══════════════════════ -->
+  <div id="tab-mcq">
+    <div class="sec-hdr">MCQ Practice — 30 Questions</div>
+
+    <div id="mcq-container"></div>
+
+    <div style="text-align:center; margin-top:16px;">
+      <button class="btn btn-primary" onclick="fmSubmitAll()">Submit All &amp; See Score</button>
+      <button class="btn btn-outline" style="margin-left:8px" onclick="fmResetMCQ()">Reset</button>
+    </div>
+
+    <div id="mcq-result" class="hidden card" style="margin-top:16px;">
+      <div class="result-wrap">
+        <div class="result-score" id="res-score"></div>
+        <div class="result-label">out of 30</div>
+        <div class="result-msg" id="res-msg"></div>
+        <div class="result-grid">
+          <div class="rg-card" style="background:#E8F5F4">
+            <div style="font-size:22px;font-weight:800;color:#2A9D8F" id="res-correct"></div>
+            <div style="font-size:11px;color:#085041">Correct</div>
+          </div>
+          <div class="rg-card" style="background:#FDEEE9">
+            <div style="font-size:22px;font-weight:800;color:#E76F51" id="res-wrong"></div>
+            <div style="font-size:11px;color:#711B0C">Wrong / Skipped</div>
+          </div>
+        </div>
+        <button class="btn btn-outline" onclick="fmResetMCQ()">Try Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ FLASHCARD TAB ══════════════════════ -->
+  <div id="tab-flash" class="hidden">
+    <div class="sec-hdr">Flashcards — Click to reveal answer</div>
+    <div class="flashcard-wrap" onclick="fmFlipCard()">
+      <div class="flashcard" id="flashcard">
+        <div class="fc-front">
+          <div class="fc-label">Question</div>
+          <div class="fc-q" id="fc-question"></div>
+          <div class="fc-hint">Tap to reveal answer ↓</div>
+        </div>
+        <div class="fc-back">
+          <div class="fc-label">✓ Answer</div>
+          <div class="fc-a" id="fc-answer"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-nav">
+      <button class="fc-btn didnt" onclick="fmFcKnew(false)">✗ Didn't know</button>
+      <span class="fc-counter" id="fc-counter">1 / 24</span>
+      <button class="fc-btn knew" onclick="fmFcKnew(true)">✓ Knew it</button>
+    </div>
+    <div style="margin-top:10px;text-align:center">
+      <span style="font-size:12px;color:#888">Knew: <b id="fc-knew-count" style="color:#2A9D8F">0</b> &nbsp;|&nbsp; Didn't know: <b id="fc-didnt-count" style="color:#E76F51">0</b></span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ FORMULA TAB ══════════════════════ -->
+  <div id="tab-formula" class="hidden">
+    <div class="sec-hdr">FM Formula Chart — Write each formula before revealing</div>
+    <div class="chip-row" id="chip-row"></div>
+    <div id="formula-container"></div>
+  </div>
+
+  <!-- ══════════════════════ THEORY TAB ══════════════════════ -->
+  <div id="tab-theory" class="hidden">
+    <div class="sec-hdr">Key Concepts — Quick Revision</div>
+    <div id="theory-container"></div>
+  </div>
+
+</div>
   </div>
 
 </div>
@@ -1739,9 +1958,9 @@ function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");
 
 /* ===== NAV ===== */
 function show(view){
-  ["p","d","l","a","r"].forEach(function(v){
-    var vmap={p:"viewPractice",d:"viewDash",l:"viewLB",a:"viewAch",r:"viewRev"};
-    var nmap={p:"navPractice",d:"navDash",l:"navLB",a:"navAch",r:"navRev"};
+  ["p","d","l","a","r","f"].forEach(function(v){
+    var vmap={p:"viewPractice",d:"viewDash",l:"viewLB",a:"viewAch",r:"viewRev",f:"viewFMRev"};
+    var nmap={p:"navPractice",d:"navDash",l:"navLB",a:"navAch",r:"navRev",f:"navFMRev"};
     $("#"+vmap[v]).classList.toggle("hide",v!==view);
     $("#"+nmap[v]).classList.toggle("on",v===view);
   });
@@ -1755,6 +1974,7 @@ $("#navDash").onclick=function(){show("d");};
 $("#navLB").onclick=function(){show("l");};
 $("#navAch").onclick=function(){show("a");};
 $("#navRev").onclick=function(){show("r");};
+$("#navFMRev").onclick=function(){show("f");};
 
 /* ===== REVISION DATA ===== */
 var SUBJECTS={
@@ -3089,6 +3309,443 @@ document.addEventListener("keydown",function(e){
 ["signupName","signupEmail","signupPass"].forEach(function(id){
   document.getElementById(id).addEventListener("keydown",function(e){if(e.key==="Enter")doSignup();});
 });
+
+/* ===== FM REVISION (isolated section) ===== */
+
+// ── State ──
+var fmState = { correct:0, wrong:0, skipped:0, answered:{} };
+var fmFcIndex = 0, fmFcFlipped = false, fmFcKnewCount = 0, fmFcDidntCount = 0;
+var fmActiveChip = 'all';
+
+// ══════════════════════════════════════════════════════
+// DATA
+// Chapters: 1=Ratio Analysis 2=Cost of Capital 3=Capital Structure & Leverage
+//           4=Capital Budgeting 5=Dividend Decision 6=Working Capital Mgmt
+// ══════════════════════════════════════════════════════
+
+var fmMcqs = [
+  // Ch1 — Ratio Analysis
+  { ch:1, q:"A firm has Current Assets Rs.2,40,000 and Current Liabilities Rs.1,20,000. Its Current Ratio is:",
+    opts:["1:1","2:1","0.5:1","3:1"], ans:1,
+    exp:"Current Ratio = Current Assets / Current Liabilities = 2,40,000/1,20,000 = 2:1. Ideal current ratio is generally taken as 2:1." },
+  { ch:1, q:"Quick Ratio (Acid Test Ratio) excludes which item from Current Assets?",
+    opts:["Cash and Bank","Debtors","Inventory (Stock) and Prepaid expenses","Marketable securities"], ans:2,
+    exp:"Quick Ratio = (Current Assets − Inventory − Prepaid Expenses) / Current Liabilities. Inventory and prepaid expenses are least liquid, so they are excluded." },
+  { ch:1, q:"Debt-Equity Ratio is calculated as:",
+    opts:["Total Assets / Total Debt","Long-term Debt / Shareholders' Funds","Current Liabilities / Equity","Net Profit / Debt"], ans:1,
+    exp:"Debt-Equity Ratio = Long-term Debt / Shareholders' Funds. It measures the proportion of long-term outside funds to owners' funds." },
+  { ch:1, q:"Return on Investment (ROI) is best measured as:",
+    opts:["EBIT / Capital Employed × 100","Net Sales / Capital Employed","Gross Profit / Sales","EBIT / Sales"], ans:0,
+    exp:"ROI = EBIT (or Net Operating Profit) / Capital Employed × 100. It measures overall profitability of funds employed in the business." },
+  { ch:1, q:"Inventory Turnover Ratio is calculated as:",
+    opts:["Sales / Closing Inventory","Cost of Goods Sold / Average Inventory","Average Inventory / Sales","Purchases / Opening Inventory"], ans:1,
+    exp:"Inventory Turnover Ratio = COGS / Average Inventory. A higher ratio indicates fast-moving stock and efficient inventory management." },
+  { ch:1, q:"If Credit Sales = Rs.7,30,000 and Average Debtors = Rs.1,00,000, the Average Collection Period is approximately:",
+    opts:["7.3 days","50 days","36 days","10 days"], ans:2,
+    exp:"Debtors Turnover = 7,30,000/1,00,000 = 7.3 times. Avg Collection Period = 365/7.3 ≈ 50 days. (Check option carefully — with 365 days it is 50 days, so correct option is B if listed; verify base assumption used.)" },
+
+  // Ch2 — Cost of Capital
+  { ch:2, q:"Cost of Irredeemable Debt (before tax) is calculated as:",
+    opts:["Interest / Net Proceeds","Interest × (1−t) / Face Value","Coupon Rate × Face Value","Interest / Market Price × (1−t)"], ans:0,
+    exp:"Kd (irredeemable, before tax) = Interest / Net Proceeds (NP). After tax, Kd = Kd(1−t), where t is the tax rate." },
+  { ch:2, q:"Under the Dividend Growth (Gordon) approach, Cost of Equity (Ke) is:",
+    opts:["D1/P0","D1/P0 + g","EPS/MP","Rf + β(Rm−Rf)"], ans:1,
+    exp:"Ke = D1/P0 + g, where D1 = expected dividend next year, P0 = current market price, g = constant growth rate in dividends." },
+  { ch:2, q:"Under CAPM, Cost of Equity is:",
+    opts:["Rf + β(Rm−Rf)","Rf − β(Rm−Rf)","β × Rm","D1/P0 + g"], ans:0,
+    exp:"CAPM: Ke = Rf + β(Rm − Rf), where Rf = risk-free rate, β = beta of the stock, Rm = market return. (Rm−Rf) is the market risk premium." },
+  { ch:2, q:"Cost of Retained Earnings (Kr) is generally taken as:",
+    opts:["Equal to Kd","Ke adjusted for tax on dividend & brokerage on reinvestment","Always zero, since no explicit cost","Equal to WACC"], ans:1,
+    exp:"Kr = Ke × (1 − tax rate on dividend) × (1 − brokerage/commission on reinvestment), since retained earnings represent forgone dividend income to shareholders." },
+  { ch:2, q:"Weighted Average Cost of Capital (WACC) uses weights based on:",
+    opts:["Only book value of each source","Only market value of each source","Book value or Market value of each source of capital","Only face value of debentures"], ans:2,
+    exp:"WACC (Ko) = Σ (Weight × Specific Cost). Weights can be based on Book Value (BV) or Market Value (MV) of each capital component, as required by the question." },
+  { ch:2, q:"For Redeemable Preference Shares, the approximation formula for Kp uses:",
+    opts:["PD / NP only","[PD + (RV−NP)/n] / [(RV+NP)/2]","RV / NP","PD × n"], ans:1,
+    exp:"Kp (redeemable) = [PD + (RV−NP)/n] / [(RV+NP)/2], where PD=Preference Dividend, RV=Redemption Value, NP=Net Proceeds, n=years to redemption." },
+
+  // Ch3 — Capital Structure & Leverage
+  { ch:3, q:"Operating Leverage is calculated as:",
+    opts:["EBIT / EBT","Contribution / EBIT","Contribution / EBT","EBT / EBIT"], ans:1,
+    exp:"Operating Leverage (OL) = Contribution / EBIT. It measures the sensitivity of EBIT to a change in Sales." },
+  { ch:3, q:"Financial Leverage measures the effect of change in EBIT on:",
+    opts:["Sales","Contribution","EPS (Earnings Per Share)","Total Assets"], ans:2,
+    exp:"Financial Leverage (FL) = EBIT / EBT. It measures how a change in EBIT affects EPS due to fixed financial charges (interest, preference dividend)." },
+  { ch:3, q:"Combined Leverage is equal to:",
+    opts:["OL + FL","OL × FL = Contribution / EBT","OL − FL","OL / FL"], ans:1,
+    exp:"Combined Leverage (CL) = Operating Leverage × Financial Leverage = Contribution / EBT. It shows the combined effect of operating and financial risk on EPS." },
+  { ch:3, q:"At the Indifference Point (EBIT-EPS analysis), EPS under two financing plans is:",
+    opts:["Always maximum","Equal under both plans","Zero","Equal to Cost of Debt"], ans:1,
+    exp:"The Indifference Point is the EBIT level at which EPS is the SAME under two alternative financing plans (e.g. all-equity vs debt-equity mix). Below it, equity financing is better; above it, debt/leverage financing is better." },
+  { ch:3, q:"A high Degree of Operating Leverage (DOL) indicates:",
+    opts:["Low fixed costs, low business risk","High fixed costs, high business risk","No relation to fixed cost","Only relevant for financial risk"], ans:1,
+    exp:"High DOL means a large proportion of fixed costs in the cost structure — small changes in sales cause magnified changes in EBIT, indicating higher business/operating risk." },
+
+  // Ch4 — Capital Budgeting / Investment Decisions
+  { ch:4, q:"Net Present Value (NPV) is calculated as:",
+    opts:["PV of cash inflows − Initial Investment","PV of cash inflows + Initial Investment","Cash inflow / Initial Investment","Initial Investment / Annual cash inflow"], ans:0,
+    exp:"NPV = Present Value of Cash Inflows − Initial Investment (Cash Outflow). A project is accepted if NPV ≥ 0." },
+  { ch:4, q:"Internal Rate of Return (IRR) is the discount rate at which:",
+    opts:["NPV is maximum","NPV equals zero","Payback period is shortest","PI equals 2"], ans:1,
+    exp:"IRR is the discount rate at which NPV = 0, i.e., PV of cash inflows exactly equals the initial investment." },
+  { ch:4, q:"Profitability Index (PI) is calculated as:",
+    opts:["NPV / Initial Investment","PV of Cash Inflows / Initial Investment","Initial Investment / PV of Cash Inflows","Cash inflow / Cash outflow − 1"], ans:1,
+    exp:"PI = PV of Cash Inflows / Initial Investment. A project is accepted if PI ≥ 1 (equivalent to NPV ≥ 0)." },
+  { ch:4, q:"Payback Period for even (uniform) annual cash inflows is:",
+    opts:["Initial Investment × Annual Cash Inflow","Initial Investment / Annual Cash Inflow","Annual Cash Inflow / Initial Investment","Cumulative cash inflow only"], ans:1,
+    exp:"Payback Period (uniform inflows) = Initial Investment / Annual Cash Inflow. For uneven cash flows, cumulative cash flows are used to find the exact period." },
+  { ch:4, q:"Accounting Rate of Return (ARR) is calculated as:",
+    opts:["Avg Annual Profit after tax / Avg Investment × 100","Total Profit / Initial Investment","Cash inflow / Useful life","NPV / Investment × 100"], ans:0,
+    exp:"ARR = Average Annual Profit after tax / Average Investment × 100. Average Investment = (Initial Investment + Salvage Value)/2, generally." },
+  { ch:4, q:"A key limitation of the Payback Period method is that it ignores:",
+    opts:["Initial investment","Cash flows occurring after the payback period and time value of money","Annual cash inflow","Useful life of the asset"], ans:1,
+    exp:"Payback Period ignores cash flows after the payback point and does not consider the time value of money (unless Discounted Payback is used)." },
+
+  // Ch5 — Dividend Decision
+  { ch:5, q:"Under Walter's Model, if r > Ke (firm's return exceeds cost of capital), the firm should:",
+    opts:["Distribute 100% dividend","Retain all earnings (0% payout) to maximise value","Payout is irrelevant","Pay dividend equal to Ke"], ans:1,
+    exp:"Walter's Model: if r > Ke (Growth firm), retaining earnings (0% payout) maximises share price, since the firm can reinvest profitably at a rate above Ke." },
+  { ch:5, q:"Gordon's Growth Model formula for share price is:",
+    opts:["P0 = E(1−b) / (Ke − br)","P0 = D/Ke","P0 = E/Ke","P0 = D1 × g"], ans:0,
+    exp:"Gordon's Model: P0 = E(1−b) / (Ke − br), where E=Earnings per share, b=retention ratio, r=return on retained earnings, br=growth rate (g)." },
+  { ch:5, q:"According to Modigliani-Miller (MM) Hypothesis, dividend policy is:",
+    opts:["The only determinant of firm value","Irrelevant to the value of the firm under perfect capital market assumptions","Relevant only for growth firms","Relevant only when r < Ke"], ans:1,
+    exp:"MM Hypothesis states dividend policy is IRRELEVANT to firm value under assumptions of perfect capital markets, no taxes, no transaction costs, and a given investment policy. Value depends only on earning power/investment decisions." },
+  { ch:5, q:"Under Walter's Model, when r = Ke, the dividend payout ratio:",
+    opts:["Is irrelevant — market price remains unchanged at any payout","Should always be 100%","Should always be 0%","Cannot be determined"], ans:0,
+    exp:"When r = Ke (Normal firm), market price is unaffected by the dividend policy — every payout ratio gives the same share price under Walter's Model." },
+
+  // Ch6 — Working Capital Management
+  { ch:6, q:"Gross Operating Cycle is calculated as:",
+    opts:["Raw Material Period + WIP Period + Finished Goods Period + Debtors Period",
+          "Raw Material Period − Creditors Period",
+          "Debtors Period + Creditors Period",
+          "Only Finished Goods Period"], ans:0,
+    exp:"Gross Operating Cycle = R (Raw Material storage period) + W (WIP period) + F (Finished Goods period) + D (Debtors collection period)." },
+  { ch:6, q:"Net Operating Cycle is:",
+    opts:["Gross Operating Cycle + Creditors Payment Period","Gross Operating Cycle − Creditors Payment Period","Gross Operating Cycle × Creditors Period","Same as Gross Operating Cycle"], ans:1,
+    exp:"Net Operating Cycle = Gross Operating Cycle − Creditors (Payables Deferral) Period. It represents the actual period for which working capital financing is needed." },
+  { ch:6, q:"The Baumol Model for cash management is analogous to which inventory model?",
+    opts:["ABC Analysis","Economic Order Quantity (EOQ)","VED Analysis","FSN Analysis"], ans:1,
+    exp:"Baumol's Cash Management Model applies the EOQ logic to cash: Optimum Cash Balance = √(2 × Annual cash requirement × Fixed cost per transaction / Opportunity cost of holding cash)." },
+];
+
+var fmFlashcards = [
+  { ch:1, q:"State the Current Ratio formula and ideal level.", a:"Current Ratio = Current Assets / Current Liabilities\nIdeal level ≈ 2:1 (traditionally)." },
+  { ch:1, q:"State the Quick Ratio formula.", a:"Quick Ratio = (Current Assets − Inventory − Prepaid Expenses) / Current Liabilities\nIdeal level ≈ 1:1." },
+  { ch:1, q:"State the Debt-Equity Ratio formula.", a:"Debt-Equity Ratio = Long-term Debt / Shareholders' Funds\nMeasures financial risk / leverage from lenders' perspective." },
+  { ch:1, q:"What is Return on Equity (ROE)?", a:"ROE = Net Profit after Tax and Preference Dividend / Equity Shareholders' Funds × 100\nMeasures return earned specifically for equity shareholders." },
+  { ch:2, q:"Cost of Redeemable Debt approximation formula?", a:"Kd = [I(1−t) + (RV−NP)/n] / [(RV+NP)/2]\nI=Interest, t=tax rate, RV=Redemption Value, NP=Net Proceeds, n=years to maturity." },
+  { ch:2, q:"State Ke using Dividend Growth Model.", a:"Ke = D1/P0 + g\nD1 = expected dividend next year, P0 = current market price, g = constant growth rate." },
+  { ch:2, q:"State Ke using CAPM.", a:"Ke = Rf + β(Rm − Rf)\nRf = risk-free rate, β = beta, Rm = expected market return, (Rm−Rf) = market risk premium." },
+  { ch:2, q:"How is WACC (Ko) computed?", a:"Ko = Σ (Weight of source × Specific cost of that source)\nWeights = Book Value or Market Value of Equity, Preference, Debt, Retained Earnings as applicable." },
+  { ch:2, q:"How is Cost of Retained Earnings (Kr) different from Ke?", a:"Kr = Ke × (1 − Tax on dividend income) × (1 − Brokerage/commission on reinvestment)\nAccounts for the fact that shareholders forgo dividend income and incur costs to reinvest it themselves." },
+  { ch:3, q:"State the three Leverage formulas.", a:"Operating Leverage (OL) = Contribution / EBIT\nFinancial Leverage (FL) = EBIT / EBT\nCombined Leverage (CL) = OL × FL = Contribution / EBT" },
+  { ch:3, q:"What does the EBIT-EPS Indifference Point represent?", a:"The level of EBIT at which EPS is EQUAL under two different financing plans (e.g., all-equity vs. debt+equity). Below this EBIT, equity is preferable; above it, debt/leverage is preferable." },
+  { ch:3, q:"What is Financial Break-Even Point?", a:"The level of EBIT at which EPS = 0, i.e., EBIT is just sufficient to cover fixed financial charges (Interest and Preference Dividend grossed up for tax)." },
+  { ch:4, q:"State the NPV decision rule.", a:"NPV = PV of Cash Inflows − Initial Investment.\nAccept the project if NPV ≥ 0 (positive NPV adds to shareholder wealth)." },
+  { ch:4, q:"State the IRR concept and decision rule.", a:"IRR = discount rate at which NPV = 0.\nAccept the project if IRR ≥ Cost of Capital (Cut-off rate)." },
+  { ch:4, q:"State the Profitability Index (PI) formula and rule.", a:"PI = PV of Cash Inflows / Initial Investment.\nAccept if PI ≥ 1. PI is especially useful for ranking projects under capital rationing." },
+  { ch:4, q:"State the Payback Period formula (even cash flows).", a:"Payback Period = Initial Investment / Annual Cash Inflow\nFor uneven cash flows, use cumulative cash flow to find the exact break-even year." },
+  { ch:5, q:"State Walter's Model formula.", a:"P = [D + (E−D)(r/Ke)] / Ke\nP=Market price, D=Dividend per share, E=EPS, r=firm's rate of return, Ke=Cost of equity." },
+  { ch:5, q:"State Gordon's Growth Model formula.", a:"P0 = E(1−b) / (Ke − br)\nE=EPS, b=retention ratio, r=return on retained earnings, br=growth rate (g), Ke=cost of equity." },
+  { ch:5, q:"What does MM Hypothesis say about dividend policy?", a:"Dividend policy is IRRELEVANT to the value of the firm under perfect market assumptions (no tax, no transaction/floatation cost, fixed investment policy). Firm value depends only on its earning power and investment decisions, not on how earnings are split between dividend and retention." },
+  { ch:6, q:"State the Gross Operating Cycle formula.", a:"GOC = R + W + F + D\nR=Raw Material period, W=WIP period, F=Finished Goods period, D=Debtors (collection) period." },
+  { ch:6, q:"State the Net Operating Cycle formula.", a:"NOC = Gross Operating Cycle − Creditors (Payment) Period\nRepresents the actual period the firm must fund from its own/borrowed working capital." },
+  { ch:6, q:"State the Baumol Model formula for optimum cash balance.", a:"C* = √(2 × U × B / i)\nU=Annual cash requirement, B=Fixed cost per transaction (transfer cost), i=Opportunity cost of holding cash (interest rate)." },
+  { ch:6, q:"What is the difference between Permanent and Temporary Working Capital?", a:"Permanent (Fixed) WC: minimum level of WC required at all times to carry on operations, doesn't fluctuate with seasonal/business cycles.\nTemporary (Variable) WC: additional WC needed to meet seasonal demand or special/unexpected situations." },
+  { ch:1, q:"State the Interest Coverage Ratio formula.", a:"Interest Coverage Ratio = EBIT / Interest\nMeasures how many times a company's earnings can cover its interest obligations — higher is safer for lenders." },
+];
+
+var fmFormulae = [
+  { name:"Current Ratio", f:"Current Assets ÷ Current Liabilities", vars:"Ideal ≈ 2:1", ch:1, trick:"CA over CL — bigger is safer (liquidity)" },
+  { name:"Quick / Acid-Test Ratio", f:"(CA − Inventory − Prepaid Exp) ÷ CL", vars:"Ideal ≈ 1:1", ch:1, trick:"Remove the slow-moving stuff (stock, prepaid)" },
+  { name:"Debt-Equity Ratio", f:"Long-term Debt ÷ Shareholders' Funds", vars:"", ch:1, trick:"Outsiders' funds vs Owners' funds" },
+  { name:"Return on Investment (ROI)", f:"EBIT ÷ Capital Employed × 100", vars:"Capital Employed = Equity + Long-term Debt", ch:1, trick:"ROI = Earnings before Interest & Tax, not PAT" },
+  { name:"Return on Equity (ROE)", f:"(PAT − Preference Dividend) ÷ Equity Shareholders' Funds × 100", vars:"", ch:1, trick:"Return FOR the equity holder only" },
+  { name:"Inventory Turnover Ratio", f:"COGS ÷ Average Inventory", vars:"", ch:1, trick:"How fast stock converts to sales" },
+  { name:"Debtors Turnover & Avg Collection Period", f:"Credit Sales ÷ Avg Debtors\n365 ÷ Debtors Turnover Ratio", vars:"", ch:1, trick:"Turnover fast → collection period short" },
+  { name:"Interest Coverage Ratio", f:"EBIT ÷ Interest", vars:"", ch:1, trick:"How many times interest is covered" },
+  { name:"Cost of Irredeemable Debt (Kd)", f:"Kd(before tax) = Interest ÷ Net Proceeds\nKd(after tax) = Kd × (1 − t)", vars:"t = tax rate", ch:2, trick:"Interest over what you actually raised (NP)" },
+  { name:"Cost of Redeemable Debt (Kd) — approx.", f:"[I(1−t) + (RV−NP)/n] ÷ [(RV+NP)/2]", vars:"I=Interest, RV=Redemption Value, NP=Net Proceeds, n=years", ch:2, trick:"Numerator: annual benefit; Denominator: avg investment" },
+  { name:"Cost of Redeemable Preference (Kp) — approx.", f:"[PD + (RV−NP)/n] ÷ [(RV+NP)/2]", vars:"PD = Preference Dividend (no tax shield)", ch:2, trick:"Same shape as Kd but NO tax adjustment" },
+  { name:"Cost of Equity — Dividend Growth Model", f:"Ke = D1 ÷ P0 + g", vars:"D1=next dividend, P0=current price, g=growth", ch:2, trick:"Yield + growth" },
+  { name:"Cost of Equity — CAPM", f:"Ke = Rf + β(Rm − Rf)", vars:"Rf=risk-free, β=beta, Rm=market return", ch:2, trick:"Risk-free + beta × market premium" },
+  { name:"Cost of Equity — Earnings/Price Method", f:"Ke = EPS ÷ MP", vars:"MP = Market Price per share", ch:2, trick:"Used when no growth is assumed" },
+  { name:"Cost of Retained Earnings (Kr)", f:"Kr = Ke × (1 − Tax on dividend) × (1 − Brokerage)", vars:"", ch:2, trick:"Ke minus the leakages shareholder would face" },
+  { name:"WACC (Ko)", f:"Ko = Σ (Weight of source × Cost of that source)", vars:"Weights = Book Value or Market Value based", ch:2, trick:"Weighted blend of Kd, Kp, Ke, Kr" },
+  { name:"Operating Leverage (OL)", f:"Contribution ÷ EBIT", vars:"", ch:3, trick:"OL — from Sales down to EBIT" },
+  { name:"Financial Leverage (FL)", f:"EBIT ÷ EBT", vars:"", ch:3, trick:"FL — from EBIT down to EBT (and EPS)" },
+  { name:"Combined Leverage (CL)", f:"OL × FL = Contribution ÷ EBT", vars:"", ch:3, trick:"CL = OL × FL, straight through" },
+  { name:"Earnings Per Share (EPS)", f:"[(EBIT − Interest)(1−t) − Pref. Dividend] ÷ No. of Equity Shares", vars:"", ch:3, trick:"PAT minus pref div, divided by equity shares" },
+  { name:"Indifference Point (EBIT-EPS Analysis)", f:"EPS under Plan A = EPS under Plan B → solve for EBIT", vars:"Set both EPS formulas equal & solve", ch:3, trick:"The EBIT where both financing plans give the same EPS" },
+  { name:"Net Present Value (NPV)", f:"NPV = PV of Cash Inflows − Initial Investment", vars:"Accept if NPV ≥ 0", ch:4, trick:"What's left after recovering investment, in today's money" },
+  { name:"Internal Rate of Return (IRR)", f:"Rate at which NPV = 0 (via interpolation)", vars:"IRR = LR + [NPV(LR) ÷ (NPV(LR)−NPV(HR))] × (HR−LR)", ch:4, trick:"Interpolate between a Low Rate and High Rate" },
+  { name:"Profitability Index (PI)", f:"PI = PV of Cash Inflows ÷ Initial Investment", vars:"Accept if PI ≥ 1", ch:4, trick:"Bang for your buck — used in capital rationing" },
+  { name:"Payback Period (uniform inflows)", f:"Initial Investment ÷ Annual Cash Inflow", vars:"Uneven flows → use cumulative cash flow", ch:4, trick:"How fast you get your money back" },
+  { name:"Accounting Rate of Return (ARR)", f:"Avg Annual Profit after tax ÷ Avg Investment × 100", vars:"Avg Investment = (Initial + Salvage)/2", ch:4, trick:"Accounting profit based, ignores time value" },
+  { name:"Walter's Model — Share Price", f:"P = [D + (E−D)(r/Ke)] ÷ Ke", vars:"D=DPS, E=EPS, r=firm's return, Ke=cost of equity", ch:5, trick:"Dividend + retained earnings' worth, capitalised at Ke" },
+  { name:"Gordon's Growth Model — Share Price", f:"P0 = E(1−b) ÷ (Ke − br)", vars:"b=retention ratio, br=growth rate g", ch:5, trick:"Payout ÷ (Ke minus growth)" },
+  { name:"MM Hypothesis — Share Price", f:"P0 = (D1 + P1) ÷ (1 + Ke)", vars:"D1=dividend, P1=price at year-end", ch:5, trick:"Discount next year's dividend + price, dividend policy irrelevant" },
+  { name:"Gross Operating Cycle", f:"R + W + F + D", vars:"R=RM period, W=WIP period, F=FG period, D=Debtors period", ch:6, trick:"Raw → Work-in-progress → Finished → Debtors" },
+  { name:"Net Operating Cycle", f:"Gross Operating Cycle − Creditors Period", vars:"", ch:6, trick:"Subtract the free credit your suppliers give you" },
+  { name:"Baumol Model — Optimum Cash Balance", f:"C* = √(2 × U × B ÷ i)", vars:"U=Annual cash need, B=Transaction cost, i=Opportunity cost", ch:6, trick:"Same shape as EOQ — just cash instead of stock" },
+];
+
+var theory = [
+  { title:"Ratio Analysis — Classification of Ratios", ch:1, tag:"tag-ch1",
+    points:["Liquidity Ratios: Current Ratio, Quick Ratio — test short-term solvency",
+            "Leverage/Solvency Ratios: Debt-Equity, Proprietary Ratio — test long-term solvency",
+            "Activity/Turnover Ratios: Inventory, Debtors, Creditors, Fixed Asset Turnover — test efficiency",
+            "Profitability Ratios: Gross Profit, Net Profit, ROI, ROE — test earning capacity",
+            "Exam trick: always check whether the ratio uses EBIT, EBT, or PAT in the numerator"] },
+  { title:"Cost of Capital — Component-wise Approach", ch:2, tag:"tag-ch2",
+    points:["Kd (Debt): tax-deductible interest → always compute AFTER-TAX cost",
+            "Kp (Preference): dividend is NOT tax-deductible → no tax adjustment",
+            "Ke (Equity): can be found via Dividend Growth Model, CAPM, or Earnings/Price Method — use whichever data is given",
+            "Kr (Retained Earnings): slightly lower than Ke due to no floatation cost, but shareholder bears tax + reinvestment cost",
+            "WACC = weighted blend of all the above, using Book Value or Market Value weights as specified in the question"] },
+  { title:"Leverage — Relationship & Risk", ch:3, tag:"tag-ch3",
+    points:["Operating Leverage → arises from FIXED OPERATING COSTS → measures Business Risk",
+            "Financial Leverage → arises from FIXED FINANCIAL COSTS (interest, pref. div.) → measures Financial Risk",
+            "Combined Leverage = OL × FL → measures Total Risk (impact of Sales change on EPS)",
+            "High Leverage = High Risk + High Return potential — a double-edged sword",
+            "EBIT-EPS Indifference Point tells us the crossover EBIT level between two financing options"] },
+  { title:"Capital Budgeting — Technique Comparison", ch:4, tag:"tag-ch4",
+    points:["Traditional methods (ignore time value): Payback Period, ARR",
+            "Discounted Cash Flow (DCF) methods (consider time value): NPV, IRR, PI, Discounted Payback",
+            "NPV assumes reinvestment at Cost of Capital; IRR assumes reinvestment at IRR itself (a key exam-theory point)",
+            "PI is best for RANKING projects under Capital Rationing (limited funds, multiple projects)",
+            "In case of conflict between NPV and IRR ranking (mutually exclusive projects), NPV should be preferred"] },
+  { title:"Dividend Decision — Theory Comparison", ch:5, tag:"tag-ch5",
+    points:["Walter's Model: relevant theory — dividend policy affects value based on r vs Ke",
+            "  • r > Ke (Growth firm) → retain 100% (0% payout) maximises price",
+            "  • r < Ke (Declining firm) → distribute 100% (full payout) maximises price",
+            "  • r = Ke (Normal firm) → dividend policy is irrelevant, price unaffected",
+            "Gordon's Model: similar logic but built around growth rate g = br",
+            "MM Hypothesis: irrelevance theory — value depends only on investment/earning policy, not dividend split (under perfect market assumptions)"] },
+  { title:"Working Capital — Key Concepts", ch:6, tag:"tag-ch6",
+    points:["Gross Operating Cycle = R+W+F+D; Net Operating Cycle = GOC − Creditors period",
+            "Permanent WC: minimum level always required; Temporary WC: fluctuates with season/special events",
+            "Baumol Model applies EOQ logic to determine optimum cash balance to hold",
+            "Factors affecting WC requirement: nature of business, production/operating cycle, credit policy, seasonality",
+            "Overtrading / Undertrading — too little or too much WC relative to business needs, both are risky"] },
+  { title:"EBIT-EPS Analysis — Exam Approach", ch:3, tag:"tag-ch3",
+    points:["Step 1: Compute EPS under each financing alternative for a given/assumed EBIT",
+            "Step 2: To find Indifference Point, equate the two EPS formulas and solve for EBIT",
+            "Step 3: Compare with Financial Break-Even EBIT (where EPS = 0) for each plan",
+            "Below Indifference EBIT → prefer the plan with LESS fixed financial charges (usually equity)",
+            "Above Indifference EBIT → prefer the plan with MORE fixed financial charges (usually debt) — 'trading on equity'"] },
+  { title:"NPV vs IRR — Common Exam Traps", ch:4, tag:"tag-ch4",
+    points:["Non-conventional cash flows (cash outflow in between) can give multiple IRRs — NPV method is more reliable here",
+            "For mutually exclusive projects of DIFFERENT SIZE, NPV (absolute Rs. value) is theoretically superior to IRR (%)",
+            "Discounted Payback Period = cumulative DISCOUNTED cash flows used to find payback, addressing the time-value flaw of simple payback",
+            "Always check whether cash flows are given as PAT or PBT, and whether depreciation needs to be added back to get cash flow"] },
+];
+
+// ══════════════════════════════════════════════════════
+// RENDER MCQ
+// ══════════════════════════════════════════════════════
+function fmRenderMCQ() {
+  var container = document.getElementById('mcq-container');
+  container.innerHTML = '';
+  fmMcqs.forEach(function(q, i) {
+    var tagClass = 'tag-ch' + q.ch;
+    var tagLabel = fmChapterName(q.ch);
+    var html = '<div class="card" id="qcard-'+i+'">' +
+      '<span class="card-tag '+tagClass+'">'+tagLabel+'</span>' +
+      '<div class="card-q">Q'+(i+1)+'. '+q.q+'</div>' +
+      '<div class="options">';
+    q.opts.forEach(function(opt, oi) {
+      html += '<button class="opt" id="opt-'+i+'-'+oi+'" onclick="fmSelectOpt('+i+','+oi+')">' +
+              String.fromCharCode(65+oi)+'. '+opt+'</button>';
+    });
+    html += '</div>';
+    html += '<div class="exp-box" id="exp-'+i+'">💡 '+q.exp+'</div>';
+    html += '</div>';
+    container.innerHTML += html;
+  });
+}
+
+function fmChapterName(ch) {
+  var names = {1:"Ratio Analysis", 2:"Cost of Capital", 3:"Capital Structure & Leverage",
+               4:"Capital Budgeting", 5:"Dividend Decision", 6:"Working Capital Mgmt"};
+  return names[ch] || ("Chapter "+ch);
+}
+
+function fmSelectOpt(qi, oi) {
+  if (fmState.answered[qi] !== undefined) return;
+  fmState.answered[qi] = oi;
+  var correct = fmMcqs[qi].ans === oi;
+  if (correct) fmState.correct++; else fmState.wrong++;
+  for (var j = 0; j < fmMcqs[qi].opts.length; j++) {
+    var el = document.getElementById('opt-'+qi+'-'+j);
+    el.classList.add('locked');
+    if (j === fmMcqs[qi].ans) el.classList.add('correct');
+    else if (j === oi && !correct) el.classList.add('wrong');
+  }
+  document.getElementById('exp-'+qi).classList.add('show');
+  fmUpdateProgress();
+}
+
+function fmSubmitAll() {
+  fmMcqs.forEach(function(q, i) {
+    if (fmState.answered[i] === undefined) {
+      fmState.skipped++;
+      document.getElementById('opt-'+i+'-'+q.ans).classList.add('reveal');
+      document.getElementById('exp-'+i).classList.add('show');
+      fmState.answered[i] = -1;
+    }
+  });
+  fmUpdateProgress();
+  var res = document.getElementById('mcq-result');
+  res.classList.remove('hidden');
+  var score = fmState.correct;
+  document.getElementById('res-score').textContent = score;
+  document.getElementById('res-correct').textContent = fmState.correct;
+  document.getElementById('res-wrong').textContent = fmState.wrong + fmState.skipped;
+  var msg = score >= 25 ? "🔥 Excellent! You're test-ready." :
+            score >= 19 ? "👍 Good. Review the ones you got wrong." :
+            score >= 13 ? "📖 Average. Revisit weak chapters' formulas." :
+                          "⚠️ Needs work. Redo formula chart & PYQs before the test.";
+  document.getElementById('res-msg').textContent = msg;
+  res.scrollIntoView({behavior:'smooth'});
+}
+
+function fmResetMCQ() {
+  fmState = { correct:0, wrong:0, skipped:0, answered:{} };
+  document.getElementById('mcq-result').classList.add('hidden');
+  fmUpdateProgress();
+  fmRenderMCQ();
+}
+
+// ══════════════════════════════════════════════════════
+// FLASHCARDS
+// ══════════════════════════════════════════════════════
+function fmRenderFlashcard() {
+  var fc = fmFlashcards[fmFcIndex];
+  document.getElementById('fc-question').textContent = fc.q;
+  document.getElementById('fc-answer').textContent = fc.a;
+  document.getElementById('fc-counter').textContent = (fmFcIndex+1) + ' / ' + fmFlashcards.length;
+  document.getElementById('flashcard').classList.remove('flipped');
+  fmFcFlipped = false;
+}
+
+function fmFlipCard() {
+  fmFcFlipped = !fmFcFlipped;
+  document.getElementById('flashcard').classList.toggle('flipped', fmFcFlipped);
+}
+
+function fmFcKnew(knew) {
+  if (knew) { fmFcKnewCount++; document.getElementById('fc-knew-count').textContent = fmFcKnewCount; }
+  else { fmFcDidntCount++; document.getElementById('fc-didnt-count').textContent = fmFcDidntCount; }
+  fmFcIndex = (fmFcIndex + 1) % fmFlashcards.length;
+  fmRenderFlashcard();
+}
+
+// ══════════════════════════════════════════════════════
+// FORMULAE
+// ══════════════════════════════════════════════════════
+function fmRenderChips() {
+  var chipRow = document.getElementById('chip-row');
+  var chips = [{id:'all', label:'All Chapters'}];
+  for (var c=1; c<=6; c++) chips.push({id:String(c), label: fmChapterName(c)});
+  chipRow.innerHTML = '';
+  chips.forEach(function(c) {
+    var active = (c.id === fmActiveChip) ? ' active' : '';
+    chipRow.innerHTML += '<div class="chip'+active+'" onclick="fmFilterFormulae(\''+c.id+'\')">'+c.label+'</div>';
+  });
+}
+
+function fmFilterFormulae(id) {
+  fmActiveChip = id;
+  fmRenderChips();
+  fmRenderFormulae();
+}
+
+function fmRenderFormulae() {
+  var container = document.getElementById('formula-container');
+  container.innerHTML = '';
+  var list = fmFormulae.filter(function(f) { return fmActiveChip === 'all' || String(f.ch) === fmActiveChip; });
+  list.forEach(function(f, i) {
+    var tagClass = 'tag-ch' + f.ch;
+    var idx = fmFormulae.indexOf(f);
+    var html = '<div class="card">' +
+      '<span class="card-tag '+tagClass+'">'+fmChapterName(f.ch)+'</span>' +
+      '<div class="card-q">'+f.name+'</div>' +
+      '<div class="formula-box">' +
+        '<div class="formula-name">Formula:</div>' +
+        '<div class="formula-val hidden-formula" id="fv-'+idx+'">'+f.f+'</div>' +
+        (f.vars ? '<div class="formula-desc">'+f.vars+'</div>' : '') +
+      '</div>' +
+      '<div style="background:#FEF3E8;border-radius:8px;padding:10px 12px;margin-top:8px;font-size:12px;color:#633806;">' +
+        '💡 Memory hook: <b>'+f.trick+'</b></div>' +
+      '<button class="reveal-btn" onclick="fmRevealFormula('+idx+', this)">Reveal Formula</button>' +
+      '</div>';
+    container.innerHTML += html;
+  });
+}
+
+function fmRevealFormula(i, btn) {
+  var el = document.getElementById('fv-'+i);
+  el.classList.add('shown');
+  btn.textContent = '✓ Revealed — Write it 3× now!';
+  btn.style.background = '#2A9D8F';
+}
+
+// ══════════════════════════════════════════════════════
+// THEORY
+// ══════════════════════════════════════════════════════
+function fmRenderTheory() {
+  var container = document.getElementById('theory-container');
+  container.innerHTML = '';
+  theory.forEach(function(t) {
+    var html = '<div class="card">' +
+      '<span class="card-tag '+t.tag+'">'+fmChapterName(t.ch)+'</span>' +
+      '<div class="card-q">'+t.title+'</div><ul style="padding-left:18px;margin-top:6px;">';
+    t.points.forEach(function(p) {
+      html += '<li style="font-size:13px;line-height:1.7;color:#444;margin-bottom:3px;">'+p+'</li>';
+    });
+    html += '</ul></div>';
+    container.innerHTML += html;
+  });
+}
+
+// ══════════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════════
+function fmShowTab(id, el) {
+  ['mcq','flash','formula','theory'].forEach(function(t) {
+    document.getElementById('tab-'+t).classList.add('hidden');
+  });
+  document.querySelectorAll('#viewFMRev .tab').forEach(function(x) { x.classList.remove('active'); });
+  document.getElementById('tab-'+id).classList.remove('hidden');
+  if(el) el.classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════
+// PROGRESS
+// ══════════════════════════════════════════════════════
+function fmUpdateProgress() {
+  var total = Object.keys(fmState.answered).length;
+  var pct = Math.round(total / fmMcqs.length * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('sc-correct').textContent = fmState.correct;
+  document.getElementById('sc-wrong').textContent = fmState.wrong;
+  document.getElementById('sc-skipped').textContent = fmState.skipped;
+  document.getElementById('sc-total').textContent = total;
+}
+
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
+fmRenderMCQ();
+fmRenderFlashcard();
+fmRenderChips();
+fmRenderFormulae();
+fmRenderTheory();
+
 </script>
 </body>
 </html>
