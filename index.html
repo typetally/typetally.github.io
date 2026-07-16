@@ -824,6 +824,7 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
       <button id="navLB">Leaderboard</button>
       <button id="navAch">Achievements</button>
       <button id="navRev">📚 Revision</button>
+      <button id="navProfile">👤 Profile</button>
     </nav>
     <div class="topright">
       <span class="savebadge ok" id="saveBadge">● saved</span>
@@ -1102,6 +1103,60 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
   </div>
 
 
+  <!-- PROFILE VIEW -->
+  <div id="viewProfile" class="hide">
+    <h2 class="sec">Your Profile</h2>
+    <div class="chart-wrap" style="display:flex;align-items:center;gap:16px">
+      <div class="avatar" id="profAvatar" style="width:56px;height:56px;font-size:1.4rem;border-radius:8px">?</div>
+      <div>
+        <div style="font-family:var(--serif);font-style:italic;font-size:1.3rem;font-weight:700" id="profName">–</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-top:2px" id="profEmail">–</div>
+        <div style="font-size:.76rem;color:var(--muted);margin-top:4px;font-family:var(--mono)" id="profMemberSince">Member since –</div>
+      </div>
+    </div>
+
+    <h2 class="sec">Stats</h2>
+    <div class="kpis">
+      <div class="kpi"><div class="v" id="profBest">–</div><div class="k">best wpm</div></div>
+      <div class="kpi"><div class="v" id="profTests">0</div><div class="k">total tests</div></div>
+      <div class="kpi"><div class="v" id="profAcc">–</div><div class="k">avg accuracy</div></div>
+      <div class="kpi"><div class="v" id="profDiff">–</div><div class="k">difficulty</div></div>
+    </div>
+
+    <h2 class="sec">Change Display Name</h2>
+    <div class="chart-wrap">
+      <div class="field" style="margin-bottom:10px">
+        <label>Display Name</label>
+        <input type="text" id="profNameInput" placeholder="Your name" maxlength="40">
+      </div>
+      <button class="btn primary" id="profSaveNameBtn">Save Name</button>
+      <div style="font-size:.78rem;color:var(--muted);margin-top:10px;line-height:1.5" id="profNameNote">You can change your display name once every 30 days.</div>
+    </div>
+
+    <div id="profPasswordSection">
+      <h2 class="sec">Change Password</h2>
+      <div class="chart-wrap">
+        <div class="field" style="margin-bottom:10px">
+          <label>New Password</label>
+          <input type="password" id="profNewPass" placeholder="Min 6 characters" autocomplete="new-password">
+        </div>
+        <div class="field" style="margin-bottom:10px">
+          <label>Confirm New Password</label>
+          <input type="password" id="profConfirmPass" placeholder="Re-enter password" autocomplete="new-password">
+        </div>
+        <button class="btn primary" id="profSavePassBtn">Update Password</button>
+        <div style="font-size:.78rem;color:var(--muted);margin-top:10px" id="profPassNote"></div>
+      </div>
+    </div>
+    <div id="profGoogleNote" class="hide">
+      <h2 class="sec">Password</h2>
+      <div class="chart-wrap">
+        <p style="font-size:.85rem;color:var(--muted);line-height:1.5">You signed in with Google, so there's no password to manage here. Sign in through Google to access your account.</p>
+      </div>
+    </div>
+  </div>
+
+
 </div>
 <div class="toast" id="toast"></div>
 
@@ -1180,7 +1235,7 @@ const ACHIEVEMENTS=[
 ];
 
 /* ===== STATE ===== */
-let DB={tests:[],badges:[],difficulty:"beginner",days:[],keyErr:{},keyHit:{}};
+let DB={tests:[],badges:[],difficulty:"beginner",days:[],keyErr:{},keyHit:{},displayName:null,memberSince:null,nameChangedAt:null};
 let currentUser=null;
 let mode="normal",duration=60,running=false,finished=false;
 let examMode=false,examBackspaceAttempts=0;
@@ -1317,9 +1372,9 @@ function showApp(){
   $("#authOverlay").classList.add("hide");
   $("#authOverlay").style.display="none";
   $("#appWrap").style.display="block";
-  const name=(currentUser.user_metadata&&currentUser.user_metadata.full_name)
-    ? currentUser.user_metadata.full_name
-    : (currentUser.email||"user").split("@")[0];
+  const name=DB.displayName
+    || (currentUser.user_metadata&&currentUser.user_metadata.full_name)
+    || (currentUser.email||"user").split("@")[0];
   $("#userName").textContent=name||"User";
   $("#userAvatar").textContent=(name||"U")[0].toUpperCase();
   $("#diffLabel").textContent=DB.difficulty;
@@ -1339,10 +1394,14 @@ async function loadFromSupabase(){
       DB.days=Array.isArray(profile.days)?profile.days:[];
       DB.keyErr=(profile.key_err&&typeof profile.key_err==="object")?profile.key_err:{};
       DB.keyHit=(profile.key_hit&&typeof profile.key_hit==="object")?profile.key_hit:{};
+      DB.displayName=profile.display_name||((currentUser.user_metadata&&currentUser.user_metadata.full_name)||currentUser.email.split("@")[0]);
+      DB.memberSince=profile.created_at||null;
+      DB.nameChangedAt=profile.display_name_changed_at||null;
     } else {
+      DB.displayName=(currentUser.user_metadata&&currentUser.user_metadata.full_name)||currentUser.email.split("@")[0];
       await sb.from("profiles").upsert({
         id:currentUser.id,
-        display_name:(currentUser.user_metadata&&currentUser.user_metadata.full_name)||currentUser.email.split("@")[0],
+        display_name:DB.displayName,
         difficulty:"beginner",badges:[],days:[],key_err:{},key_hit:{},best_wpm:0,total_tests:0,avg_acc:0
       });
     }
@@ -1362,7 +1421,7 @@ async function saveToSupabase(test){
     });
     await sb.from("profiles").upsert({
       id:currentUser.id,
-      display_name:(currentUser.user_metadata&&currentUser.user_metadata.full_name)||currentUser.email.split("@")[0],
+      display_name:DB.displayName||(currentUser.user_metadata&&currentUser.user_metadata.full_name)||currentUser.email.split("@")[0],
       difficulty:DB.difficulty,badges:DB.badges,days:DB.days,key_err:DB.keyErr,key_hit:DB.keyHit,
       best_wpm:(function(){var ranked=DB.tests.filter(function(t){return t.mode!=="freestyle";});return ranked.length?Math.max.apply(null,ranked.map(function(t){return t.wpm;})):0;})(),
       total_tests:DB.tests.length,
@@ -1738,9 +1797,9 @@ function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");
 
 /* ===== NAV ===== */
 function show(view){
-  ["p","d","l","a","r"].forEach(function(v){
-    var vmap={p:"viewPractice",d:"viewDash",l:"viewLB",a:"viewAch",r:"viewRev"};
-    var nmap={p:"navPractice",d:"navDash",l:"navLB",a:"navAch",r:"navRev"};
+  ["p","d","l","a","r","pf"].forEach(function(v){
+    var vmap={p:"viewPractice",d:"viewDash",l:"viewLB",a:"viewAch",r:"viewRev",pf:"viewProfile"};
+    var nmap={p:"navPractice",d:"navDash",l:"navLB",a:"navAch",r:"navRev",pf:"navProfile"};
     $("#"+vmap[v]).classList.toggle("hide",v!==view);
     $("#"+nmap[v]).classList.toggle("on",v===view);
   });
@@ -1748,12 +1807,14 @@ function show(view){
   if(view==="a")renderBadges();
   if(view==="l")loadLeaderboard();
   if(view==="r")initRevision();
+  if(view==="pf")initProfile();
 }
 $("#navPractice").onclick=function(){show("p");};
 $("#navDash").onclick=function(){show("d");};
 $("#navLB").onclick=function(){show("l");};
 $("#navAch").onclick=function(){show("a");};
 $("#navRev").onclick=function(){show("r");};
+$("#navProfile").onclick=function(){show("pf");};
 
 /* ===== REVISION DATA ===== */
 var SUBJECTS={
@@ -3087,6 +3148,115 @@ document.addEventListener("keydown",function(e){
 });
 ["signupName","signupEmail","signupPass"].forEach(function(id){
   document.getElementById(id).addEventListener("keydown",function(e){if(e.key==="Enter")doSignup();});
+});
+
+/* ===== PROFILE VIEW ===== */
+function isEmailPasswordUser(){
+  if(!currentUser)return false;
+  if(currentUser.identities&&currentUser.identities.length){
+    return currentUser.identities.some(function(i){return i.provider==="email";});
+  }
+  return (currentUser.app_metadata&&currentUser.app_metadata.provider==="email");
+}
+function daysUntilNameChangeAllowed(){
+  if(!DB.nameChangedAt)return 0;
+  var last=new Date(DB.nameChangedAt).getTime();
+  var elapsedDays=(Date.now()-last)/(1000*60*60*24);
+  var remaining=Math.ceil(30-elapsedDays);
+  return remaining>0?remaining:0;
+}
+function initProfile(){
+  if(!currentUser)return;
+  var name=DB.displayName||"–";
+  $("#profName").textContent=name;
+  $("#profAvatar").textContent=(name||"U")[0].toUpperCase();
+  $("#profEmail").textContent=currentUser.email||"–";
+  var memberSince=DB.memberSince?new Date(DB.memberSince).toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"}):"–";
+  $("#profMemberSince").textContent="Member since "+memberSince;
+
+  var ranked=DB.tests.filter(function(t){return t.mode!=="freestyle";});
+  $("#profBest").textContent=ranked.length?Math.max.apply(null,ranked.map(function(t){return t.wpm;})):"–";
+  $("#profTests").textContent=DB.tests.length;
+  $("#profAcc").textContent=ranked.length?Math.round(ranked.reduce(function(s,t){return s+t.acc;},0)/ranked.length)+"%":"–";
+  $("#profDiff").textContent=DB.difficulty;
+
+  $("#profNameInput").value=DB.displayName||"";
+  var remaining=daysUntilNameChangeAllowed();
+  var note=$("#profNameNote");
+  if(remaining>0){
+    note.textContent="You changed your name recently — you can change it again in "+remaining+" day"+(remaining===1?"":"s")+".";
+    note.style.color="var(--accent)";
+    $("#profSaveNameBtn").disabled=true;
+  }else{
+    note.textContent="You can change your display name once every 30 days.";
+    note.style.color="var(--muted)";
+    $("#profSaveNameBtn").disabled=false;
+  }
+
+  var hasEmailAuth=isEmailPasswordUser();
+  $("#profPasswordSection").classList.toggle("hide",!hasEmailAuth);
+  $("#profGoogleNote").classList.toggle("hide",hasEmailAuth);
+  $("#profNewPass").value="";
+  $("#profConfirmPass").value="";
+  $("#profPassNote").textContent="";
+}
+async function saveDisplayName(){
+  var btn=$("#profSaveNameBtn");
+  var newName=$("#profNameInput").value.trim();
+  var note=$("#profNameNote");
+  if(!newName){note.textContent="Please enter a name.";note.style.color="var(--accent)";return;}
+  if(newName.length>40){note.textContent="Name is too long (max 40 characters).";note.style.color="var(--accent)";return;}
+  if(daysUntilNameChangeAllowed()>0)return; // guarded, button already disabled
+  btn.disabled=true;btn.textContent="Saving…";
+  try{
+    const {error}=await sb.from("profiles").update({display_name:newName}).eq("id",currentUser.id);
+    if(error)throw error;
+    DB.displayName=newName;
+    DB.nameChangedAt=new Date().toISOString();
+    $("#userName").textContent=newName;
+    $("#userAvatar").textContent=newName[0].toUpperCase();
+    note.textContent="Name updated! You can change it again in 30 days.";
+    note.style.color="var(--good)";
+    btn.disabled=true;
+    toast("Display name updated");
+  }catch(e){
+    var msg=(e&&e.message)?e.message:"Could not update name. Please try again.";
+    note.textContent=msg.indexOf("once every 30 days")>-1?"You can only change your name once every 30 days.":msg;
+    note.style.color="var(--accent)";
+  }finally{
+    btn.textContent="Save Name";
+    if(daysUntilNameChangeAllowed()===0)btn.disabled=false;
+  }
+}
+async function savePassword(){
+  var btn=$("#profSavePassBtn");
+  var p1=$("#profNewPass").value,p2=$("#profConfirmPass").value;
+  var note=$("#profPassNote");
+  if(!p1||!p2){note.textContent="Please fill in both fields.";note.style.color="var(--accent)";return;}
+  if(p1.length<6){note.textContent="Password must be at least 6 characters.";note.style.color="var(--accent)";return;}
+  if(p1!==p2){note.textContent="Passwords do not match.";note.style.color="var(--accent)";return;}
+  btn.disabled=true;btn.textContent="Updating…";
+  try{
+    const {error}=await sb.auth.updateUser({password:p1});
+    if(error)throw error;
+    note.textContent="Password updated successfully.";
+    note.style.color="var(--good)";
+    $("#profNewPass").value="";$("#profConfirmPass").value="";
+    toast("Password updated");
+  }catch(e){
+    note.textContent=(e&&e.message)?e.message:"Could not update password. Please try again.";
+    note.style.color="var(--accent)";
+  }finally{
+    btn.disabled=false;btn.textContent="Update Password";
+  }
+}
+$("#profSaveNameBtn").onclick=saveDisplayName;
+$("#profSavePassBtn").onclick=savePassword;
+["profNameInput"].forEach(function(id){
+  document.getElementById(id).addEventListener("keydown",function(e){if(e.key==="Enter")saveDisplayName();});
+});
+["profNewPass","profConfirmPass"].forEach(function(id){
+  document.getElementById(id).addEventListener("keydown",function(e){if(e.key==="Enter")savePassword();});
 });
 
 </script>
