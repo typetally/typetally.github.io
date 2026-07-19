@@ -658,6 +658,43 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
 .btn-generate-ai:disabled{opacity:.6;cursor:not-allowed}
 .ai-gen-status{font-size:.72rem;color:var(--muted);min-height:14px}
 
+/* ===== BATTLE MODE (Phase 1: core loop) ===== */
+.battle-arena{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.battle-side{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;text-align:center}
+.battle-side-label{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px}
+.battle-side-icon{font-size:2.4rem;margin-bottom:8px;line-height:1}
+.battle-side-name{font-family:var(--serif);font-weight:600;font-size:1rem;margin-bottom:10px}
+.battle-hpbar{height:14px;background:var(--surface2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.battle-hpfill{height:100%;border-radius:99px;transition:width .3s ease}
+.battle-hpfill.player{background:var(--good)}
+.battle-hpfill.enemy{background:var(--accent)}
+.battle-hptext{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:5px}
+
+.battle-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+
+.battle-wordbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:32px 24px;text-align:center;margin-bottom:16px}
+.battle-word{font-family:var(--mono);font-size:2.2rem;font-weight:700;letter-spacing:.02em;color:var(--ink);margin-bottom:18px;min-height:48px}
+.battle-word .typed-ok{color:var(--good)}
+.battle-word .typed-bad{color:var(--accent)}
+#battleInput{width:100%;max-width:340px;padding:12px 16px;background:var(--surface2);border:1px solid var(--line);border-radius:3px;color:var(--ink);font-family:var(--mono);font-size:1.1rem;text-align:center;outline:none}
+#battleInput:focus{border-color:var(--accent)}
+.battle-feedback{font-family:var(--mono);font-size:.8rem;margin-top:10px;min-height:18px;font-weight:700}
+.battle-feedback.hit{color:var(--good)}
+.battle-feedback.miss{color:var(--accent)}
+
+.battle-over{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:40px 24px;text-align:center}
+.battle-over h3{font-family:var(--serif);font-style:italic;font-size:1.5rem;margin-bottom:16px}
+.battle-over .bo-stats{display:flex;justify-content:center;gap:32px;margin-bottom:24px}
+.battle-over .bo-stat .v{font-family:var(--mono);font-size:1.6rem;font-weight:800;color:var(--accent)}
+.battle-over .bo-stat .k{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+@media(max-width:640px){
+  .battle-arena{grid-template-columns:1fr}
+  .battle-word{font-size:1.5rem}
+  .battle-stats{grid-template-columns:repeat(3,1fr)}
+}
+
+
 </style>
 </head>
 <body>
@@ -825,6 +862,7 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
       <button id="navAch">Achievements</button>
       <button id="navRev">📚 Revision</button>
       <button id="navProfile">👤 Profile</button>
+      <button id="navBattle">⚔️ Battle</button>
     </nav>
     <div class="topright">
       <span class="savebadge ok" id="saveBadge">● saved</span>
@@ -1152,6 +1190,54 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
       <h2 class="sec">Password</h2>
       <div class="chart-wrap">
         <p style="font-size:.85rem;color:var(--muted);line-height:1.5">You signed in with Google, so there's no password to manage here. Sign in through Google to access your account.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- BATTLE VIEW (Phase 1: core loop) -->
+  <div id="viewBattle" class="hide">
+    <h2 class="sec">⚔️ Typing Battle</h2>
+
+    <div id="battleArenaWrap">
+      <div class="battle-arena">
+        <div class="battle-side">
+          <div class="battle-side-label">You</div>
+          <div class="battle-side-icon">🧑‍💻</div>
+          <div class="battle-side-name">Player</div>
+          <div class="battle-hpbar"><div class="battle-hpfill player" id="battlePlayerHpFill" style="width:100%"></div></div>
+          <div class="battle-hptext" id="battlePlayerHpText">100 / 100</div>
+        </div>
+        <div class="battle-side">
+          <div class="battle-side-label">Enemy</div>
+          <div class="battle-side-icon" id="battleEnemyIcon">👾</div>
+          <div class="battle-side-name" id="battleEnemyName">Glitch Sprite</div>
+          <div class="battle-hpbar"><div class="battle-hpfill enemy" id="battleEnemyHpFill" style="width:100%"></div></div>
+          <div class="battle-hptext" id="battleEnemyHpText">40 / 40</div>
+        </div>
+      </div>
+
+      <div class="battle-stats">
+        <div class="stat"><div class="v" id="battleDefeated">0</div><div class="k">enemies defeated</div></div>
+        <div class="stat hi"><div class="v" id="battleCombo">0</div><div class="k">combo</div></div>
+        <div class="stat"><div class="v" id="battleBestCombo">0</div><div class="k">best combo</div></div>
+      </div>
+
+      <div class="battle-wordbox">
+        <div class="battle-word" id="battleWordDisplay">word</div>
+        <input id="battleInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Type the word and press space" />
+        <div class="battle-feedback" id="battleFeedback"></div>
+      </div>
+    </div>
+
+    <div id="battleOverWrap" class="hide">
+      <div class="battle-over">
+        <h3>💀 Defeated!</h3>
+        <div class="bo-stats">
+          <div class="bo-stat"><div class="v" id="boDefeated">0</div><div class="k">Enemies Defeated</div></div>
+          <div class="bo-stat"><div class="v" id="boBestCombo">0</div><div class="k">Best Combo</div></div>
+        </div>
+        <button class="btn primary" id="battleRestartBtn">Try Again →</button>
       </div>
     </div>
   </div>
@@ -1797,9 +1883,9 @@ function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");
 
 /* ===== NAV ===== */
 function show(view){
-  ["p","d","l","a","r","pf"].forEach(function(v){
-    var vmap={p:"viewPractice",d:"viewDash",l:"viewLB",a:"viewAch",r:"viewRev",pf:"viewProfile"};
-    var nmap={p:"navPractice",d:"navDash",l:"navLB",a:"navAch",r:"navRev",pf:"navProfile"};
+  ["p","d","l","a","r","pf","b"].forEach(function(v){
+    var vmap={p:"viewPractice",d:"viewDash",l:"viewLB",a:"viewAch",r:"viewRev",pf:"viewProfile",b:"viewBattle"};
+    var nmap={p:"navPractice",d:"navDash",l:"navLB",a:"navAch",r:"navRev",pf:"navProfile",b:"navBattle"};
     $("#"+vmap[v]).classList.toggle("hide",v!==view);
     $("#"+nmap[v]).classList.toggle("on",v===view);
   });
@@ -1808,6 +1894,7 @@ function show(view){
   if(view==="l")loadLeaderboard();
   if(view==="r")initRevision();
   if(view==="pf")initProfile();
+  if(view==="b")initBattle();
 }
 $("#navPractice").onclick=function(){show("p");};
 $("#navDash").onclick=function(){show("d");};
@@ -1815,6 +1902,7 @@ $("#navLB").onclick=function(){show("l");};
 $("#navAch").onclick=function(){show("a");};
 $("#navRev").onclick=function(){show("r");};
 $("#navProfile").onclick=function(){show("pf");};
+$("#navBattle").onclick=function(){show("b");};
 
 /* ===== REVISION DATA ===== */
 var SUBJECTS={
@@ -3258,6 +3346,129 @@ $("#profSavePassBtn").onclick=savePassword;
 ["profNewPass","profConfirmPass"].forEach(function(id){
   document.getElementById(id).addEventListener("keydown",function(e){if(e.key==="Enter")savePassword();});
 });
+
+/* ===== BATTLE MODE (Phase 1: core loop) ===== */
+var BATTLE_ENEMY_TYPES=[
+  {name:"Glitch Sprite",icon:"👾"},
+  {name:"Ink Wraith",icon:"👻"},
+  {name:"Static Golem",icon:"🗿"},
+  {name:"Rogue Byte",icon:"🐛"},
+  {name:"Paper Wisp",icon:"🔥"},
+  {name:"Cipher Beast",icon:"🐉"}
+];
+var battle={
+  playerHp:100,playerMaxHp:100,
+  enemyHp:40,enemyMaxHp:40,
+  enemyIndex:0,
+  combo:0,bestCombo:0,
+  defeated:0,
+  currentWord:"",
+  active:false
+};
+function battleWordPool(){
+  // Reuse existing pools; filter to reasonable game-length words
+  var pool=POOLS.beginner.filter(function(w){return w.length>=3;});
+  var financeWords=POOLS.finance.join(" ").toLowerCase().replace(/[^a-z ]/g," ").split(" ").filter(function(w){return w.length>=4&&w.length<=11;});
+  return pool.concat(financeWords);
+}
+function battlePickWord(){
+  var pool=battleWordPool();
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+function battleSpawnEnemy(){
+  var type=BATTLE_ENEMY_TYPES[battle.enemyIndex%BATTLE_ENEMY_TYPES.length];
+  battle.enemyMaxHp=40+battle.enemyIndex*12;
+  battle.enemyHp=battle.enemyMaxHp;
+  $("#battleEnemyIcon").textContent=type.icon;
+  $("#battleEnemyName").textContent=type.name+" · Lv."+(battle.enemyIndex+1);
+  battleRenderHp();
+}
+function battleRenderHp(){
+  var pPct=Math.max(0,Math.round(battle.playerHp/battle.playerMaxHp*100));
+  var ePct=Math.max(0,Math.round(battle.enemyHp/battle.enemyMaxHp*100));
+  $("#battlePlayerHpFill").style.width=pPct+"%";
+  $("#battlePlayerHpText").textContent=Math.max(0,battle.playerHp)+" / "+battle.playerMaxHp;
+  $("#battleEnemyHpFill").style.width=ePct+"%";
+  $("#battleEnemyHpText").textContent=Math.max(0,battle.enemyHp)+" / "+battle.enemyMaxHp;
+  $("#battleDefeated").textContent=battle.defeated;
+  $("#battleCombo").textContent=battle.combo;
+  $("#battleBestCombo").textContent=battle.bestCombo;
+}
+function battleNewWord(){
+  battle.currentWord=battlePickWord();
+  $("#battleWordDisplay").textContent=battle.currentWord;
+  var inp=$("#battleInput");
+  inp.value="";
+  inp.focus();
+}
+function battleFeedback(msg,cls){
+  var f=$("#battleFeedback");
+  f.textContent=msg;
+  f.className="battle-feedback "+(cls||"");
+  setTimeout(function(){if(f.textContent===msg)f.textContent="";},900);
+}
+function battleSubmitWord(){
+  if(!battle.active)return;
+  var typed=$("#battleInput").value.trim();
+  if(!typed)return;
+  var target=battle.currentWord;
+  if(typed.toLowerCase()===target.toLowerCase()){
+    // HIT — damage scales with word length
+    var dmg=Math.max(6,Math.round(target.length*6.5));
+    battle.enemyHp-=dmg;
+    battle.combo++;
+    if(battle.combo>battle.bestCombo)battle.bestCombo=battle.combo;
+    battleFeedback("+"+dmg+" damage!","hit");
+    if(battle.enemyHp<=0){
+      battle.defeated++;
+      battle.enemyIndex++;
+      battleFeedback("Enemy defeated!","hit");
+      setTimeout(function(){
+        if(battle.active){battleSpawnEnemy();battleNewWord();}
+      },500);
+    }else{
+      battleNewWord();
+    }
+  }else{
+    // MISS — enemy attacks back, combo resets
+    var enemyDmg=8+Math.floor(battle.enemyIndex*1.5);
+    battle.playerHp-=enemyDmg;
+    battle.combo=0;
+    battleFeedback("Miss! Enemy hits for "+enemyDmg,"miss");
+    if(battle.playerHp<=0){
+      battleEnd();
+      return;
+    }
+    battleNewWord();
+  }
+  battleRenderHp();
+}
+function battleEnd(){
+  battle.active=false;
+  $("#battleArenaWrap").classList.add("hide");
+  $("#battleOverWrap").classList.remove("hide");
+  $("#boDefeated").textContent=battle.defeated;
+  $("#boBestCombo").textContent=battle.bestCombo;
+}
+function initBattle(){
+  battle={playerHp:100,playerMaxHp:100,enemyHp:40,enemyMaxHp:40,enemyIndex:0,combo:0,bestCombo:0,defeated:0,currentWord:"",active:true};
+  $("#battleArenaWrap").classList.remove("hide");
+  $("#battleOverWrap").classList.add("hide");
+  battleSpawnEnemy();
+  battleNewWord();
+  battleRenderHp();
+}
+var battleInputEl=document.getElementById("battleInput");
+if(battleInputEl){
+  battleInputEl.addEventListener("keydown",function(e){
+    if(e.key===" "||e.key==="Enter"){
+      e.preventDefault();
+      battleSubmitWord();
+    }
+  });
+}
+var battleRestartBtn=document.getElementById("battleRestartBtn");
+if(battleRestartBtn)battleRestartBtn.onclick=function(){initBattle();};
 
 </script>
 </body>
