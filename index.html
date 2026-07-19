@@ -694,6 +694,61 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
   .battle-stats{grid-template-columns:repeat(3,1fr)}
 }
 
+/* ===== BATTLE MODE PHASE 2: game feel ===== */
+@keyframes battleShakeKF{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(5px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(3px)}
+}
+.battle-shake{animation:battleShakeKF .3s ease}
+
+@keyframes battleFloatUpKF{
+  0%{opacity:1;transform:translate(-50%,0) scale(1)}
+  70%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-46px) scale(1.15)}
+}
+.battle-dmg-float{
+  position:absolute;left:50%;top:10px;
+  font-family:var(--mono);font-weight:800;font-size:1.3rem;
+  pointer-events:none;animation:battleFloatUpKF .8s ease-out forwards;
+  z-index:5;
+}
+.battle-dmg-float.hit{color:var(--accent)}
+.battle-dmg-float.crit{color:var(--gold);font-size:1.6rem}
+.battle-dmg-float.miss{color:var(--bad)}
+.battle-side{position:relative;overflow:hidden}
+
+@keyframes battleFlashHitKF{0%{background:rgba(168,54,43,.35)}100%{background:transparent}}
+@keyframes battleFlashMissKF{0%{background:rgba(168,54,43,.35)}100%{background:transparent}}
+.battle-side.flash-hit{animation:battleFlashHitKF .35s ease}
+.battle-side.flash-miss{animation:battleFlashMissKF .35s ease}
+
+@keyframes battleIconPunchKF{
+  0%{transform:scale(1)}
+  30%{transform:scale(1.25) rotate(-4deg)}
+  100%{transform:scale(1)}
+}
+.battle-side-icon.punch{animation:battleIconPunchKF .3s ease}
+
+@keyframes battleComboGlowKF{
+  0%,100%{box-shadow:0 0 0 0 rgba(184,146,61,0)}
+  50%{box-shadow:0 0 0 6px rgba(184,146,61,.28)}
+}
+.stat.combo-glow{animation:battleComboGlowKF .6s ease-in-out}
+.stat.combo-glow .v{color:var(--gold)}
+.stat.combo-glow-big .v{color:var(--accent);text-shadow:0 0 12px rgba(168,54,43,.4)}
+
+.battle-word.word-hit{animation:battleWordHitKF .25s ease}
+@keyframes battleWordHitKF{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.08)}
+  100%{transform:scale(1)}
+}
+.battle-word.word-miss{color:var(--bad)!important;animation:battleShakeKF .3s ease}
+
+
 
 </style>
 </head>
@@ -1201,14 +1256,14 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
 
     <div id="battleArenaWrap">
       <div class="battle-arena">
-        <div class="battle-side">
+        <div class="battle-side" id="battlePlayerSide">
           <div class="battle-side-label">You</div>
-          <div class="battle-side-icon">🧑‍💻</div>
+          <div class="battle-side-icon" id="battlePlayerIcon">🧑‍💻</div>
           <div class="battle-side-name">Player</div>
           <div class="battle-hpbar"><div class="battle-hpfill player" id="battlePlayerHpFill" style="width:100%"></div></div>
           <div class="battle-hptext" id="battlePlayerHpText">100 / 100</div>
         </div>
-        <div class="battle-side">
+        <div class="battle-side" id="battleEnemySide">
           <div class="battle-side-label">Enemy</div>
           <div class="battle-side-icon" id="battleEnemyIcon">👾</div>
           <div class="battle-side-name" id="battleEnemyName">Glitch Sprite</div>
@@ -1219,7 +1274,7 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
 
       <div class="battle-stats">
         <div class="stat"><div class="v" id="battleDefeated">0</div><div class="k">enemies defeated</div></div>
-        <div class="stat hi"><div class="v" id="battleCombo">0</div><div class="k">combo</div></div>
+        <div class="stat hi" id="battleComboStat"><div class="v" id="battleCombo">0</div><div class="k">combo</div></div>
         <div class="stat"><div class="v" id="battleBestCombo">0</div><div class="k">best combo</div></div>
       </div>
 
@@ -3375,6 +3430,52 @@ function battlePickWord(){
   var pool=battleWordPool();
   return pool[Math.floor(Math.random()*pool.length)];
 }
+function battleShakeArena(){
+  var arena=document.querySelector(".battle-arena");
+  if(!arena)return;
+  arena.classList.remove("battle-shake");
+  void arena.offsetWidth; // restart animation
+  arena.classList.add("battle-shake");
+}
+function battleFloatDamage(sideEl,text,cls){
+  if(!sideEl)return;
+  var d=document.createElement("div");
+  d.className="battle-dmg-float "+(cls||"");
+  d.textContent=text;
+  sideEl.appendChild(d);
+  setTimeout(function(){d.remove();},850);
+}
+function battleFlashSide(sideEl,cls){
+  if(!sideEl)return;
+  sideEl.classList.remove("flash-hit","flash-miss");
+  void sideEl.offsetWidth;
+  sideEl.classList.add(cls);
+  setTimeout(function(){sideEl.classList.remove(cls);},400);
+}
+function battlePunchIcon(iconEl){
+  if(!iconEl)return;
+  iconEl.classList.remove("punch");
+  void iconEl.offsetWidth;
+  iconEl.classList.add("punch");
+  setTimeout(function(){iconEl.classList.remove("punch");},350);
+}
+function battleComboGlowEffect(){
+  var stat=document.getElementById("battleComboStat");
+  if(!stat)return;
+  stat.classList.remove("combo-glow","combo-glow-big");
+  void stat.offsetWidth;
+  if(battle.combo>0&&battle.combo%10===0){stat.classList.add("combo-glow","combo-glow-big");}
+  else if(battle.combo>0&&(battle.combo%5===0||battle.combo%2===0)){stat.classList.add("combo-glow");}
+}
+function battleWordPunch(cls){
+  var w=document.getElementById("battleWordDisplay");
+  if(!w)return;
+  w.classList.remove("word-hit","word-miss");
+  void w.offsetWidth;
+  w.classList.add(cls);
+  setTimeout(function(){w.classList.remove(cls);},350);
+}
+
 function battleSpawnEnemy(){
   var type=BATTLE_ENEMY_TYPES[battle.enemyIndex%BATTLE_ENEMY_TYPES.length];
   battle.enemyMaxHp=40+battle.enemyIndex*12;
@@ -3412,20 +3513,33 @@ function battleSubmitWord(){
   var typed=$("#battleInput").value.trim();
   if(!typed)return;
   var target=battle.currentWord;
+  var enemySide=document.getElementById("battleEnemySide");
+  var playerSide=document.getElementById("battlePlayerSide");
+  var enemyIcon=document.getElementById("battleEnemyIcon");
+
   if(typed.toLowerCase()===target.toLowerCase()){
     // HIT — damage scales with word length
     var dmg=Math.max(6,Math.round(target.length*6.5));
+    var isCrit=target.length>=8;
+    if(isCrit)dmg=Math.round(dmg*1.4);
     battle.enemyHp-=dmg;
     battle.combo++;
     if(battle.combo>battle.bestCombo)battle.bestCombo=battle.combo;
-    battleFeedback("+"+dmg+" damage!","hit");
+    battleFeedback(isCrit?"CRITICAL! +"+dmg:"+"+dmg+" damage!","hit");
+    battleFloatDamage(enemySide,(isCrit?"CRIT ":"")+"-"+dmg,isCrit?"crit":"hit");
+    battlePunchIcon(enemyIcon);
+    battleWordPunch("word-hit");
+    battleComboGlowEffect();
+    playKeySound(false);
+    if(battle.combo>0&&battle.combo%5===0)battleShakeArena();
     if(battle.enemyHp<=0){
       battle.defeated++;
       battle.enemyIndex++;
       battleFeedback("Enemy defeated!","hit");
+      battleShakeArena();
       setTimeout(function(){
         if(battle.active){battleSpawnEnemy();battleNewWord();}
-      },500);
+      },550);
     }else{
       battleNewWord();
     }
@@ -3435,6 +3549,12 @@ function battleSubmitWord(){
     battle.playerHp-=enemyDmg;
     battle.combo=0;
     battleFeedback("Miss! Enemy hits for "+enemyDmg,"miss");
+    battleFloatDamage(playerSide,"-"+enemyDmg,"miss");
+    battleFlashSide(playerSide,"flash-miss");
+    battleWordPunch("word-miss");
+    battleShakeArena();
+    playKeySound(true);
+    document.getElementById("battleComboStat").classList.remove("combo-glow","combo-glow-big");
     if(battle.playerHp<=0){
       battleEnd();
       return;
@@ -3454,6 +3574,7 @@ function initBattle(){
   battle={playerHp:100,playerMaxHp:100,enemyHp:40,enemyMaxHp:40,enemyIndex:0,combo:0,bestCombo:0,defeated:0,currentWord:"",active:true};
   $("#battleArenaWrap").classList.remove("hide");
   $("#battleOverWrap").classList.add("hide");
+  if(soundOn)loadSounds();
   battleSpawnEnemy();
   battleNewWord();
   battleRenderHp();
