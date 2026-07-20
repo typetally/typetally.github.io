@@ -750,6 +750,251 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
 
 
 
+
+/* ===== HERO REDESIGN (scoped th- classes) ===== */
+/* ============================================================
+   TYPETALLY — HERO REDESIGN STYLES
+   All selectors are scoped to unique `.th-` classes or the
+   preserved IDs, so nothing here can collide with or override
+   your existing site CSS. Paste this into your <style> block.
+   Fonts reused: Inter (display/body) + JetBrains Mono (stats),
+   both already loaded by your site.
+   ============================================================ */
+
+:root{
+  --th-bg:#0a0a0f;
+  --th-bg2:#111116;
+  --th-panel:#15151c;
+  --th-accent:#ff5b45;
+  --th-accent-deep:#a8362b;
+  --th-text:#f5f3ef;
+  --th-text-dim:#9a97a3;
+  --th-line:rgba(255,255,255,.09);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .th-reveal,.th-float-card,.th-word-cycle,.th-badge-dot,.th-blob{animation:none!important;transition:none!important}
+}
+
+/* ---------- NAV ---------- */
+.th-nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(10,10,15,.72);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--th-line);
+}
+.th-nav-inner{
+  max-width:1180px;margin:0 auto;padding:16px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:'Inter',sans-serif;
+}
+.th-logo{font-size:1.15rem;font-weight:800;color:var(--th-text);letter-spacing:-.02em}
+.th-logo span{color:var(--th-accent)}
+.th-navlinks{display:flex;gap:32px}
+.th-navlinks a{
+  color:var(--th-text-dim);text-decoration:none;font-size:.88rem;font-weight:500;
+  transition:color .2s ease;
+}
+.th-navlinks a:hover{color:var(--th-text)}
+.th-nav-actions{display:flex;align-items:center;gap:12px}
+.th-nav-signin{
+  background:none;border:none;color:var(--th-text-dim);font-family:inherit;
+  font-size:.88rem;font-weight:600;cursor:pointer;padding:8px 6px;transition:color .2s ease;
+}
+.th-nav-signin:hover{color:var(--th-text)}
+.th-nav-cta{
+  background:var(--th-text);color:var(--th-bg);border:none;border-radius:8px;
+  padding:9px 18px;font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.th-nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(255,255,255,.12)}
+
+/* ---------- HERO SHELL ---------- */
+.th-hero{
+  position:relative;background:var(--th-bg);overflow:hidden;
+  padding:96px 28px 80px;font-family:'Inter',sans-serif;
+}
+.th-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.th-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--th-line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--th-line) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 20%,black 30%,transparent 75%);
+  opacity:.5;
+}
+.th-blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.28}
+.th-blob-a{width:520px;height:520px;top:-160px;left:-120px;background:var(--th-accent-deep)}
+.th-blob-b{width:420px;height:420px;top:120px;right:-140px;background:var(--th-accent)}
+
+.th-hero-inner{
+  position:relative;z-index:1;max-width:1180px;margin:0 auto;
+  display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;
+}
+
+/* ---------- LEFT COLUMN ---------- */
+.th-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--th-panel);border:1px solid var(--th-line);border-radius:100px;
+  padding:7px 16px 7px 12px;font-size:.8rem;font-weight:600;color:var(--th-text-dim);
+  margin-bottom:24px;
+}
+.th-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--th-accent);animation:th-pulse 2s ease-in-out infinite}
+@keyframes th-pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+.th-headline{
+  font-size:clamp(2.4rem,4.6vw,3.75rem);font-weight:800;line-height:1.08;
+  letter-spacing:-.03em;color:var(--th-text);margin-bottom:24px;
+}
+.th-headline span{display:block}
+.th-word-cycle{
+  display:inline-block;color:var(--th-accent);position:relative;
+  min-width:1ch;
+}
+
+.th-hero-sub{
+  font-size:1.08rem;line-height:1.6;color:var(--th-text-dim);max-width:480px;margin-bottom:32px;
+}
+
+.th-hero-actions{display:flex;align-items:center;gap:18px;margin-bottom:36px}
+.th-btn-primary{
+  display:inline-flex;align-items:center;gap:9px;
+  background:linear-gradient(135deg,var(--th-accent),var(--th-accent-deep));
+  color:#fff;border:none;border-radius:10px;padding:14px 26px;
+  font-family:inherit;font-size:.95rem;font-weight:700;cursor:pointer;
+  box-shadow:0 8px 24px rgba(255,91,69,.28);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.th-btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,91,69,.42)}
+.th-btn-primary svg{transition:transform .2s ease}
+.th-btn-primary:hover svg{transform:translateX(3px)}
+
+.th-btn-ghost{
+  display:inline-flex;align-items:center;gap:9px;color:var(--th-text);text-decoration:none;
+  font-size:.95rem;font-weight:600;padding:14px 6px;transition:opacity .2s ease;
+}
+.th-btn-ghost:hover{opacity:.7}
+.th-play-dot{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:50%;background:var(--th-panel);
+  border:1px solid var(--th-line);font-size:.6rem;
+}
+
+.th-trust{display:flex;align-items:center;gap:12px;font-size:.85rem;color:var(--th-text-dim)}
+.th-stars{color:var(--th-accent);letter-spacing:2px;font-size:.9rem}
+
+/* ---------- RIGHT COLUMN: LAPTOP MOCKUP ---------- */
+.th-hero-right{position:relative;padding:20px}
+.th-laptop-wrap{
+  position:relative;transform-style:preserve-3d;
+  transition:transform .15s ease-out;
+}
+.th-laptop{
+  position:relative;background:#1c1c22;border-radius:14px 14px 4px 4px;
+  padding:14px 14px 6px;box-shadow:0 30px 70px rgba(0,0,0,.55);
+  border:1px solid rgba(255,255,255,.06);
+}
+.th-laptop-cam{
+  width:6px;height:6px;border-radius:50%;background:#000;border:1px solid #333;
+  margin:0 auto 10px;
+}
+.th-laptop-screen{
+  background:var(--th-panel);border-radius:6px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.05);
+}
+.th-screen-chrome{
+  display:flex;align-items:center;gap:6px;padding:10px 14px;
+  background:#191920;border-bottom:1px solid rgba(255,255,255,.05);
+}
+.th-screen-chrome span{width:8px;height:8px;border-radius:50%;background:#39393f}
+.th-screen-chrome span:nth-child(1){background:#ff5f57}
+.th-screen-chrome span:nth-child(2){background:#febc2e}
+.th-screen-chrome span:nth-child(3){background:#28c840}
+.th-screen-tab{
+  margin-left:10px;font-size:.72rem;color:var(--th-text-dim);font-weight:600;
+  font-family:'Inter',sans-serif;
+}
+.th-laptop-base{
+  height:14px;background:linear-gradient(#2a2a30,#1c1c22);
+  border-radius:0 0 10px 10px;margin:0 -4px;
+  box-shadow:0 8px 16px rgba(0,0,0,.3);
+}
+.th-laptop-shadow{
+  width:82%;height:36px;margin:14px auto 0;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(0,0,0,.45),transparent 70%);
+}
+
+/* The real ledger demo, restyled to sit inside the laptop screen */
+.th-ledger-demo{
+  background:#F6F1E4;padding:20px 22px 18px;font-family:'Georgia',serif;position:relative;
+}
+.th-ledger-stats{display:flex;gap:22px;margin-bottom:14px;flex-wrap:wrap}
+.th-stat{display:flex;flex-direction:column;font-family:'JetBrains Mono',monospace}
+.th-stat b{font-size:1.15rem;color:#1B1812;font-weight:700;line-height:1.1}
+.th-stat.th-stat-acc b{color:#A8362B}
+.th-stat i{font-style:normal;font-size:.6rem;letter-spacing:.06em;color:#8a8574;margin-top:2px}
+#landDemoText{
+  font-family:'JetBrains Mono',monospace;font-size:.98rem;line-height:1.75;
+  color:#8a8574;min-height:96px;cursor:text;
+}
+#landDemoText span.ok{color:#1B1812}
+#landDemoText span.err{color:#fff;background:#A8362B;border-radius:2px}
+#landDemoText span.cur{background:rgba(184,146,61,.28);box-shadow:-2px 0 0 #B8860B;border-radius:2px}
+#landDemoInput{position:absolute;opacity:0;width:1px;height:1px;left:0;top:0}
+.th-demo-hint{font-family:'Inter',sans-serif;font-size:.72rem;color:#8a8574;margin-top:12px}
+
+/* Floating stat cards */
+.th-float-card{
+  position:absolute;display:flex;align-items:center;gap:10px;
+  background:rgba(21,21,28,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--th-line);border-radius:12px;padding:12px 16px;
+  box-shadow:0 12px 32px rgba(0,0,0,.35);
+  font-family:'Inter',sans-serif;
+  animation:th-float 6s ease-in-out infinite;
+  animation-delay:calc(var(--fd) * .7s);
+}
+.th-float-card b{font-family:'JetBrains Mono',monospace;font-size:1.05rem;color:var(--th-text);font-weight:700}
+.th-float-card span,.th-float-card i{font-style:normal;font-size:.72rem;color:var(--th-text-dim)}
+.th-float-card div{display:flex;flex-direction:column}
+.th-float-icon{font-size:1.1rem}
+@keyframes th-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+.th-float-1{top:-6%;left:-8%}
+.th-float-2{bottom:14%;left:-10%}
+.th-float-3{top:38%;right:-14%}
+.th-float-4{bottom:-4%;right:6%}
+.th-float-wide{padding:12px 18px}
+
+/* ---------- REVEAL ANIMATIONS ---------- */
+.th-reveal{
+  opacity:0;transform:translateY(18px);
+  animation:th-reveal-in .7s cubic-bezier(.16,1,.3,1) forwards;
+  animation-delay:calc(var(--d) * .09s);
+}
+@keyframes th-reveal-in{to{opacity:1;transform:translateY(0)}}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:980px){
+  .th-hero-inner{grid-template-columns:1fr;gap:64px}
+  .th-hero-right{padding:20px 20px 60px;max-width:520px;margin:0 auto}
+  .th-navlinks{display:none}
+}
+@media (max-width:640px){
+  .th-nav-inner{padding:14px 18px}
+  .th-hero{padding:56px 18px 60px}
+  .th-headline{font-size:clamp(2rem,9vw,2.6rem)}
+  .th-hero-sub{font-size:1rem}
+  .th-hero-actions{flex-direction:column;align-items:flex-start;gap:14px}
+  .th-btn-primary{width:100%;justify-content:center}
+  .th-float-card{padding:9px 12px}
+  .th-float-1{left:-4%;top:-4%}
+  .th-float-2{left:-4%}
+  .th-float-3{right:-4%}
+  .th-float-4{right:-2%}
+  .th-nav-cta{padding:8px 14px;font-size:.8rem}
+}
+
 </style>
 </head>
 <body>
@@ -757,43 +1002,131 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
 <!-- LANDING VIEW -->
 <div class="crease" id="landingCrease"></div>
 <div id="landingView">
-<nav id="landingNav">
-  <div class="inner">
-    <div class="logo" style="font-style:italic">type<span class="red" style="color:var(--accent)">tally</span></div>
-    <div class="navlinks">
+<!-- ============================================================
+     TYPETALLY — HERO SECTION REDESIGN
+     Replace your existing <nav id="landingNav">...</nav> and
+     <header class="hero">...</header> blocks with everything
+     between the START/END markers below.
+
+     PRESERVED IDs (your existing JS still binds to these — do not rename):
+       #navSignIn   → opens login (openAuth('login'))
+       #heroCta     → opens signup (openAuth('signup'))
+       #landDemoText, #landDemoInput, #landDWpm, #landDAcc
+                    → your real live typing demo engine (untouched)
+
+     NOTE ON NAV LINKS: your brief asked for Features / Revision /
+     Leaderboard / Pricing in the nav. Features and "How it works"
+     link to real sections that exist today (#features, #how). Your
+     Finance & Accounting section (#finance) is the closest existing
+     match to "Revision" content, so that's what I linked it to.
+     Leaderboard and Pricing don't have landing-page sections yet —
+     I did not want to ship dead links, so I left them out of the
+     nav rather than fake them. Happy to build real sections for
+     either if you want them — separate task from this hero redesign.
+     ============================================================ -->
+
+<!-- ==================== START: NAV ==================== -->
+<nav id="landingNav" class="th-nav">
+  <div class="th-nav-inner">
+    <div class="th-logo">type<span>tally</span></div>
+    <div class="th-navlinks">
       <a href="#features">Features</a>
-      <a href="#finance">Finance mode</a>
+      <a href="#finance">Revision</a>
       <a href="#how">How it works</a>
     </div>
-    <button class="navcta" id="navSignIn">Sign in</button>
+    <div class="th-nav-actions">
+      <button class="th-nav-signin" id="navSignIn">Log in</button>
+      <button class="th-nav-cta" id="navHeroCtaTwin">Start free</button>
+    </div>
   </div>
 </nav>
+<!-- ==================== END: NAV ==================== -->
 
-<header class="hero">
-  <div class="wrap" style="padding-bottom:0">
-    <div class="hero-eyebrow"><span class="line"></span>Built by a CA student, for commerce students</div>
-    <h1>Practice your typing.<br>Revise <em>the syllabus.</em><br>One page, two birds.</h1>
-    <p class="hero-sub">Every other typing test hands you random sentences. TypeTally hands you GST sections, costing formulas, and audit terminology — so the minutes you spend on speed double as exam revision.</p>
-    <div class="hero-actions">
-      <button class="btn-primary" id="heroCta">Start typing, free →</button>
-      <a href="#how" class="btn-text">See how it works</a>
+<!-- ==================== START: HERO ==================== -->
+<header class="th-hero">
+  <div class="th-bg" aria-hidden="true">
+    <div class="th-grid"></div>
+    <div class="th-blob th-blob-a"></div>
+    <div class="th-blob th-blob-b"></div>
+  </div>
+
+  <div class="th-hero-inner">
+    <div class="th-hero-left">
+      <div class="th-badge th-reveal" style="--d:0">
+        <span class="th-badge-dot"></span>Built for CA &amp; CMA Students
+      </div>
+
+      <h1 class="th-headline">
+        <span class="th-reveal" style="--d:1">Master typing</span>
+        <span class="th-reveal" style="--d:2">with real <span class="th-word-cycle" id="thWordCycle">GST</span></span>
+        <span class="th-reveal" style="--d:3">&amp; Costing passages</span>
+      </h1>
+
+      <p class="th-hero-sub th-reveal" style="--d:4">
+        Stop practicing random paragraphs. Practice using real commerce content — exactly like your exams.
+      </p>
+
+      <div class="th-hero-actions th-reveal" style="--d:5">
+        <button class="th-btn-primary" id="heroCta">
+          <span>Start free</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <a href="#how" class="th-btn-ghost">
+          <span class="th-play-dot">▶</span> Watch demo
+        </a>
+      </div>
+
+      <div class="th-trust th-reveal" style="--d:6">
+        <div class="th-stars">★★★★★</div>
+        <span>Trusted by commerce students preparing for CA &amp; CMA</span>
+      </div>
     </div>
 
-    <div class="ledger-page">
-      <div class="ledger-head">
-        <div class="ledger-tab">Practice entry — <b>Finance &amp; Accounting</b></div>
-        <div class="stamp-group">
-          <div class="stamp"><span class="v" id="landDWpm">0</span><span>WPM</span></div>
-          <div class="stamp red"><span class="v" id="landDAcc">100%</span><span>ACCURACY</span></div>
+    <div class="th-hero-right th-reveal" style="--d:3">
+      <div class="th-laptop-wrap" id="thLaptopWrap">
+        <div class="th-laptop">
+          <div class="th-laptop-cam"></div>
+          <div class="th-laptop-screen">
+            <!-- Real live demo, restyled to sit inside the laptop screen -->
+            <div class="th-screen-chrome">
+              <span></span><span></span><span></span>
+              <div class="th-screen-tab">TypeTally — Finance &amp; Accounting</div>
+            </div>
+            <div class="th-ledger-demo">
+              <div class="th-ledger-stats">
+                <div class="th-stat"><b id="landDWpm">0</b><i>WPM</i></div>
+                <div class="th-stat th-stat-acc"><b id="landDAcc">100%</b><i>ACCURACY</i></div>
+                <div class="th-stat"><b>0</b><i>MISTAKES</i></div>
+                <div class="th-stat"><b>60s</b><i>TIMER</i></div>
+              </div>
+              <div id="landDemoText"></div>
+              <input id="landDemoInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+              <div class="th-demo-hint">👆 Click and start typing — this is the real engine, not a mockup</div>
+            </div>
+          </div>
         </div>
+        <div class="th-laptop-base"></div>
+        <div class="th-laptop-shadow"></div>
       </div>
-      <div id="landDemoText"></div>
-      <input id="landDemoInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
-      <div class="demo-hint">👆 <b>Click the page above and start typing</b> — this is the real engine, not a mockup</div>
-      <div class="ledger-page-num">— 1 —</div>
+
+      <div class="th-float-card th-float-1" style="--fd:0">
+        <b class="th-countup" data-target="52">0</b><span>WPM</span>
+      </div>
+      <div class="th-float-card th-float-2" style="--fd:1">
+        <b class="th-countup" data-target="98" data-suffix="%">0</b><span>Accuracy</span>
+      </div>
+      <div class="th-float-card th-float-3 th-float-wide" style="--fd:2">
+        <span class="th-float-icon">✨</span>
+        <div><b>AI Generated</b><i>10,000+ passages</i></div>
+      </div>
+      <div class="th-float-card th-float-4" style="--fd:3">
+        <b class="th-countup" data-target="365">0</b><span>Day streak</span>
+      </div>
     </div>
   </div>
 </header>
+<!-- ==================== END: HERO ==================== -->
+
 
 <div class="trust">
   <div class="wrap" style="padding-bottom:0">
@@ -3590,6 +3923,88 @@ if(battleInputEl){
 }
 var battleRestartBtn=document.getElementById("battleRestartBtn");
 if(battleRestartBtn)battleRestartBtn.onclick=function(){initBattle();};
+
+
+/* ===== HERO REDESIGN SCRIPT ===== */
+/* ============================================================
+   TYPETALLY — HERO REDESIGN SCRIPT
+   Paste into your main <script> block (anywhere after the DOM
+   elements exist, e.g. near the end like your other hero wiring).
+   Wrapped in an IIFE — no global variables added.
+   ============================================================ */
+(function(){
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Wire the new nav CTA button to the same signup flow as heroCta
+  var navTwin = document.getElementById('navHeroCtaTwin');
+  if(navTwin) navTwin.onclick = function(){ if(typeof openAuth === 'function') openAuth('signup'); };
+
+  // ---- Word cycle: GST → Audit → Costing ----
+  var cycleEl = document.getElementById('thWordCycle');
+  if(cycleEl && !reduceMotion){
+    var words = ['GST','Audit','Costing'];
+    var wi = 0;
+    setInterval(function(){
+      wi = (wi + 1) % words.length;
+      cycleEl.style.opacity = '0';
+      cycleEl.style.transform = 'translateY(6px)';
+      setTimeout(function(){
+        cycleEl.textContent = words[wi];
+        cycleEl.style.transition = 'opacity .35s ease, transform .35s ease';
+        cycleEl.style.opacity = '1';
+        cycleEl.style.transform = 'translateY(0)';
+      }, 220);
+    }, 2200);
+  }
+
+  // ---- Count-up numbers on floating cards ----
+  var countEls = document.querySelectorAll('.th-countup');
+  if(countEls.length){
+    var animateCount = function(el){
+      var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+      var suffix = el.getAttribute('data-suffix') || '';
+      if(reduceMotion){ el.textContent = target + suffix; return; }
+      var start = 0, duration = 1200, startTime = null;
+      function step(ts){
+        if(!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target) + suffix;
+        if(progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    };
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){ animateCount(entry.target); io.unobserve(entry.target); }
+        });
+      }, {threshold:.4});
+      countEls.forEach(function(el){ io.observe(el); });
+    } else {
+      countEls.forEach(animateCount);
+    }
+  }
+
+  // ---- Mouse parallax on laptop mockup ----
+  var laptopWrap = document.getElementById('thLaptopWrap');
+  if(laptopWrap && !reduceMotion && window.matchMedia('(min-width:981px)').matches){
+    var heroRight = laptopWrap.closest('.th-hero-right');
+    if(heroRight){
+      heroRight.addEventListener('mousemove', function(e){
+        var rect = heroRight.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top) / rect.height - 0.5;
+        var rotY = x * 8;
+        var rotX = y * -8;
+        laptopWrap.style.transform = 'rotateY(' + rotY + 'deg) rotateX(' + rotX + 'deg)';
+      });
+      heroRight.addEventListener('mouseleave', function(){
+        laptopWrap.style.transform = 'rotateY(0deg) rotateX(0deg)';
+      });
+    }
+  }
+})();
 
 </script>
 </body>
