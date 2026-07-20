@@ -42,7 +42,6 @@
 [data-theme="dark"] body{
   background-image:linear-gradient(rgba(39,49,61,.6) 1px, transparent 1px);
 }
-[data-theme="dark"] .crease{background:linear-gradient(#27313D,#27313D 98%,transparent);}
 [data-theme="dark"] #landingNav{background:rgba(14,17,22,.92);}
 [data-theme="dark"] .auth-overlay{background-image:linear-gradient(rgba(39,49,61,.5) 1px, transparent 1px);}
 [data-theme="dark"] .ledger-page{background:#151B23;}
@@ -62,7 +61,6 @@
   --gold:#D97706;
 }
 [data-theme="white"] body{background-image:none;}
-[data-theme="white"] .crease{display:none;}
 [data-theme="white"] #landingNav{background:rgba(255,255,255,.95);}
 [data-theme="white"] .auth-overlay{background-image:none;}
 [data-theme="white"] .ledger-page::before{background:rgba(37,99,235,.08);}
@@ -79,7 +77,6 @@
   --gold:#FCD34D;
 }
 [data-theme="green"] body{background-image:linear-gradient(rgba(31,61,46,.5) 1px, transparent 1px);}
-[data-theme="green"] .crease{background:linear-gradient(#1F3D2E,#1F3D2E 98%,transparent);}
 [data-theme="green"] #landingNav{background:rgba(13,31,26,.92);}
 [data-theme="green"] .auth-overlay{background-image:linear-gradient(rgba(31,61,46,.4) 1px, transparent 1px);}
 [data-theme="green"] .ledger-page{background:#112218;}
@@ -98,7 +95,6 @@
   --gold:#FBBF24;
 }
 [data-theme="midnight"] body{background-image:linear-gradient(rgba(51,65,85,.5) 1px, transparent 1px);}
-[data-theme="midnight"] .crease{background:linear-gradient(#334155,#334155 98%,transparent);}
 [data-theme="midnight"] #landingNav{background:rgba(15,23,42,.92);}
 [data-theme="midnight"] .auth-overlay{background-image:linear-gradient(rgba(51,65,85,.4) 1px, transparent 1px);}
 [data-theme="midnight"] .ledger-page{background:#1E293B;}
@@ -117,7 +113,6 @@
   --gold:#D97706;
 }
 [data-theme="rose"] body{background-image:none;}
-[data-theme="rose"] .crease{display:none;}
 [data-theme="rose"] #landingNav{background:rgba(255,241,242,.95);}
 [data-theme="rose"] .auth-overlay{background-image:none;}
 [data-theme="rose"] .ledger-page::before{background:rgba(225,29,72,.08);}
@@ -134,7 +129,6 @@
   --gold:#FFB84D;
 }
 [data-theme="slate"] body{background-image:linear-gradient(rgba(58,58,58,.5) 1px, transparent 1px);}
-[data-theme="slate"] .crease{background:linear-gradient(#3A3A3A,#3A3A3A 98%,transparent);}
 [data-theme="slate"] #landingNav{background:rgba(26,26,26,.92);}
 [data-theme="slate"] .auth-overlay{background-image:linear-gradient(rgba(58,58,58,.4) 1px, transparent 1px);}
 [data-theme="slate"] .ledger-page{background:#242424;}
@@ -153,7 +147,6 @@
   --gold:#B8860B;
 }
 [data-theme="sepia"] body{background-image:linear-gradient(rgba(212,196,160,.5) 1px, transparent 1px);}
-[data-theme="sepia"] .crease{background:linear-gradient(#D4C4A0,#D4C4A0 98%,transparent);}
 [data-theme="sepia"] #landingNav{background:rgba(244,236,216,.95);}
 [data-theme="sepia"] .auth-overlay{background-image:linear-gradient(rgba(212,196,160,.4) 1px, transparent 1px);}
 [data-theme="sepia"] .ledger-page::before{background:rgba(154,99,36,.08);}
@@ -337,10 +330,7 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
 
 /* ===== LANDING VIEW ===== */
 #landingView{position:relative}
-.crease{position:fixed;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(var(--line),var(--line) 98%,transparent);opacity:.55;z-index:1;pointer-events:none}
-.crease::before,.crease::after{content:"";position:absolute;left:-3px;width:7px;height:7px;border-radius:99px;background:var(--line)}
-.crease::before{top:60px}
-.crease::after{bottom:60px}
+
 #landingNav{position:sticky;top:0;z-index:50;background:rgba(246,241,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 #landingNav .inner{max-width:1100px;margin:0 auto;padding:20px 28px;display:flex;align-items:center;gap:28px}
 #landingNav .navlinks{display:flex;gap:30px;margin-left:auto}
@@ -448,8 +438,7 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
   .ledger-page{margin-top:36px}
   .land-section{padding:64px 0}
   .trust .wrap{gap:28px}
-  .crease{display:none}
-}
+  }
 
 /* ===== REVISION SECTION ===== */
 #viewRev{padding-bottom:40px}
@@ -1000,7 +989,7 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
 <body>
 
 <!-- LANDING VIEW -->
-<div class="crease" id="landingCrease"></div>
+
 <div id="landingView">
 <!-- ============================================================
      TYPETALLY — HERO SECTION REDESIGN
