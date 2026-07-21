@@ -996,6 +996,200 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
   .th-nav-cta{padding:8px 14px;font-size:.8rem}
 }
 
+
+/* ===== PRODUCT SHOWCASE (scoped ts- classes) ===== */
+/* ============================================================
+   TYPETALLY — PRODUCT SHOWCASE STYLES
+   All selectors scoped under .ts- classes — cannot collide with
+   any existing site CSS. Fonts reused: Inter + JetBrains Mono
+   (already loaded). Paste into your <style> block.
+   ============================================================ */
+
+.ts-showcase{
+  position:relative;overflow:hidden;
+  background:#FAFAF8;
+  padding:110px 24px 100px;
+  font-family:'Inter',sans-serif;
+  color:#111111;
+}
+.ts-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.ts-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(17,17,17,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(17,17,17,.045) 1px,transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse 65% 55% at 50% 30%,black 30%,transparent 78%);
+}
+.ts-blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:.16}
+.ts-blob-a{width:480px;height:480px;top:-120px;left:-100px;background:#A8362B}
+.ts-blob-b{width:420px;height:420px;bottom:-140px;right:-100px;background:#FF5B45}
+
+.ts-inner{position:relative;z-index:1;max-width:1180px;margin:0 auto}
+
+.ts-head{text-align:center;max-width:640px;margin:0 auto 64px}
+.ts-head h2{
+  font-size:clamp(2rem,4.2vw,3rem);font-weight:800;letter-spacing:-.025em;
+  line-height:1.12;margin-bottom:16px;color:#111111;
+}
+.ts-head p{font-size:1.08rem;color:#5c5c5c;line-height:1.6}
+
+/* ---------- CARD ROW ---------- */
+.ts-cards{
+  display:grid;grid-template-columns:0.78fr 1.15fr 0.78fr;
+  align-items:center;gap:0;margin-bottom:80px;position:relative;
+}
+.ts-card{position:relative;transition:transform .3s ease}
+.ts-card-left{margin-right:-34px;z-index:1}
+.ts-card-right{margin-left:-34px;z-index:1}
+.ts-card-center{z-index:2}
+
+.ts-glass{
+  background:rgba(255,255,255,.72);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(17,17,17,.08);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 20px 50px -18px rgba(17,17,17,.16),0 2px 8px rgba(17,17,17,.04);
+  animation:ts-float 7s ease-in-out infinite;
+}
+.ts-card-left .ts-glass{animation-delay:.3s}
+.ts-card-right .ts-glass{animation-delay:.9s}
+.ts-center-glass{padding:20px;border-radius:24px}
+@keyframes ts-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+.ts-card:hover{transform:translateY(-6px)}
+
+.ts-mock-label{
+  font-size:.78rem;font-weight:700;color:#A8362B;text-transform:uppercase;
+  letter-spacing:.06em;margin-bottom:16px;
+}
+
+/* Dashboard card (left) */
+.ts-dash-top{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.ts-ring-wrap{position:relative;width:74px;height:74px;flex-shrink:0}
+.ts-ring{width:100%;height:100%;transform:rotate(-90deg)}
+.ts-ring-bg{fill:none;stroke:rgba(17,17,17,.08);stroke-width:8}
+.ts-ring-fill{
+  fill:none;stroke:#A8362B;stroke-width:8;stroke-linecap:round;
+  stroke-dasharray:264;stroke-dashoffset:264;
+  transition:stroke-dashoffset 1.4s cubic-bezier(.16,1,.3,1);
+}
+.ts-ring-center{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.ts-ring-center i{font-style:normal;font-size:.55rem;color:#8a8a8a;letter-spacing:.05em}
+.ts-ring-center b{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:700;color:#111}
+.ts-dash-stats{display:flex;flex-direction:column;gap:6px}
+.ts-dash-stats div{display:flex;align-items:baseline;gap:6px}
+.ts-dash-stats b{font-family:'JetBrains Mono',monospace;font-size:.98rem;font-weight:700;color:#111}
+.ts-dash-stats i{font-style:normal;font-size:.68rem;color:#8a8a8a}
+.ts-graph-label{font-size:.68rem;color:#8a8a8a;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.ts-graph-svg{width:100%;height:56px;display:block;margin-bottom:14px}
+.ts-graph-line{fill:none;stroke:#A8362B;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:400;stroke-dashoffset:400;transition:stroke-dashoffset 1.6s cubic-bezier(.16,1,.3,1);}
+.ts-badge-row{display:flex}
+.ts-badge{
+  background:rgba(184,146,61,.12);color:#8a6a1f;border:1px solid rgba(184,146,61,.3);
+  font-size:.72rem;font-weight:700;padding:6px 12px;border-radius:100px;
+}
+
+/* Center card — typing mock */
+.ts-mock-chrome{display:flex;align-items:center;gap:6px;padding:6px 6px 14px}
+.ts-mock-chrome span{width:9px;height:9px;border-radius:50%;background:#e0e0e0}
+.ts-mock-chrome span:nth-child(1){background:#ff5f57}
+.ts-mock-chrome span:nth-child(2){background:#febc2e}
+.ts-mock-chrome span:nth-child(3){background:#28c840}
+.ts-mock-tab{margin-left:10px;font-size:.74rem;color:#8a8a8a;font-weight:600}
+.ts-mock-stats{display:flex;gap:22px;padding:0 4px 16px;flex-wrap:wrap}
+.ts-mstat{display:flex;flex-direction:column}
+.ts-mstat b{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:800;color:#111}
+.ts-mstat.ts-mstat-acc b{color:#A8362B}
+.ts-mstat i{font-style:normal;font-size:.62rem;color:#8a8a8a;text-transform:uppercase;letter-spacing:.05em;margin-top:1px}
+.ts-mock-passage{
+  background:#F6F1E4;border:1px solid rgba(17,17,17,.06);border-radius:12px;
+  padding:20px 22px;font-family:'JetBrains Mono',monospace;font-size:1.02rem;line-height:1.85;
+  color:#8a8574;min-height:118px;margin-bottom:14px;
+}
+.ts-mock-passage span.ok{color:#1B1812}
+.ts-mock-passage span.err{color:#fff;background:#A8362B;border-radius:2px}
+.ts-mock-passage span.cur{background:rgba(184,146,61,.32);box-shadow:-2px 0 0 #B8860B;border-radius:2px}
+.ts-mock-progress{height:5px;background:rgba(17,17,17,.08);border-radius:3px;overflow:hidden;margin-bottom:12px}
+.ts-mock-progress-fill{height:100%;width:0%;background:#A8362B;border-radius:3px;transition:width .3s linear}
+.ts-mock-kbd{font-size:.72rem;color:#9a9a9a;text-align:center}
+.ts-mock-kbd kbd{
+  font-family:'JetBrains Mono',monospace;border:1px solid rgba(17,17,17,.15);
+  border-radius:4px;padding:1px 6px;font-size:.68rem;background:rgba(17,17,17,.03);
+}
+
+/* AI Generator card (right) */
+.ts-ai-prompt-box{background:rgba(17,17,17,.03);border:1px solid rgba(17,17,17,.07);border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.ts-ai-prompt-label{font-size:.62rem;color:#8a8a8a;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.ts-ai-prompt{font-size:.86rem;color:#111;font-weight:500;line-height:1.4}
+.ts-ai-gen-btn{
+  width:100%;padding:11px;border:none;border-radius:10px;
+  background:linear-gradient(135deg,#FF5B45,#A8362B);color:#fff;
+  font-family:inherit;font-weight:700;font-size:.86rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 8px 22px rgba(168,54,43,.28);
+  transition:transform .18s ease,box-shadow .18s ease;
+  margin-bottom:16px;
+}
+.ts-ai-gen-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(168,54,43,.4)}
+.ts-sparkle{display:inline-block;animation:ts-sparkle-spin 3s linear infinite}
+@keyframes ts-sparkle-spin{0%,100%{transform:rotate(0deg) scale(1)}50%{transform:rotate(15deg) scale(1.15)}}
+.ts-ai-output{min-height:96px;background:rgba(17,17,17,.03);border:1px dashed rgba(17,17,17,.14);border-radius:12px;padding:14px;display:flex;align-items:center}
+.ts-shimmer{
+  width:100%;height:70px;border-radius:8px;
+  background:linear-gradient(90deg,rgba(17,17,17,.05) 25%,rgba(17,17,17,.11) 50%,rgba(17,17,17,.05) 75%);
+  background-size:200% 100%;animation:ts-shimmer-move 1.4s ease-in-out infinite;
+}
+@keyframes ts-shimmer-move{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.ts-ai-text{font-size:.82rem;line-height:1.65;color:#3a3a3a;font-family:'JetBrains Mono',monospace}
+.ts-ai-text.hide{display:none}
+
+/* ---------- FEATURE ROW ---------- */
+.ts-features{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+}
+.ts-feat{
+  background:rgba(255,255,255,.6);border:1px solid rgba(17,17,17,.07);border-radius:18px;
+  padding:26px 22px;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+}
+.ts-feat:hover{transform:translateY(-5px);box-shadow:0 16px 34px -16px rgba(17,17,17,.18);border-color:rgba(168,54,43,.25)}
+.ts-feat-icon{
+  font-size:1.5rem;width:48px;height:48px;border-radius:12px;
+  background:rgba(168,54,43,.08);display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;transition:transform .22s ease;
+}
+.ts-feat:hover .ts-feat-icon{transform:scale(1.1) rotate(-4deg)}
+.ts-feat h3{font-size:1.02rem;font-weight:700;margin-bottom:8px;color:#111}
+.ts-feat p{font-size:.88rem;color:#666;line-height:1.55}
+
+/* ---------- REVEAL ANIMATION ---------- */
+.ts-reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--d,0) * .12s)}
+.ts-reveal.ts-in{opacity:1;transform:translateY(0)}
+
+@media (prefers-reduced-motion: reduce){
+  .ts-glass,.ts-sparkle,.ts-shimmer{animation:none!important}
+  .ts-reveal{transition:opacity .3s ease!important;transform:none!important}
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:900px){
+  .ts-cards{grid-template-columns:1fr;gap:20px}
+  .ts-card-left,.ts-card-right{margin:0}
+  .ts-card-center{order:-1}
+  .ts-features{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:560px){
+  .ts-showcase{padding:70px 18px 70px}
+  .ts-head{margin-bottom:40px}
+  .ts-mock-passage{font-size:.9rem;padding:16px}
+  .ts-features{grid-template-columns:1fr}
+  .ts-dash-top{flex-wrap:wrap}
+}
+
 </style>
 </head>
 <body>
@@ -1129,14 +1323,113 @@ table.log td.m{font-family:var(--ui);color:var(--muted)}
 <!-- ==================== END: HERO ==================== -->
 
 
-<div class="trust">
-  <div class="wrap" style="padding-bottom:0">
-    <div class="trust-item"><span class="v">14+</span><span class="k">CA/CMA topic passages</span></div>
-    <div class="trust-item"><span class="v">free</span><span class="k">to start, always</span></div>
-    <div class="trust-item"><span class="v">zero</span><span class="k">ads, ever</span></div>
-    <div class="trust-item"><span class="v">4</span><span class="k">practice modes</span></div>
+<!-- ============================================================
+     TYPETALLY — PRODUCT SHOWCASE SECTION
+     Replaces the existing <div class="trust">...</div> block
+     (the section immediately below the hero). Nothing else on
+     the page is touched. All content here is a visual mockup —
+     no real backend calls — purely to showcase the product.
+     ============================================================ -->
+<section class="ts-showcase" id="tsShowcase">
+  <div class="ts-bg" aria-hidden="true">
+    <div class="ts-grid"></div>
+    <div class="ts-blob ts-blob-a"></div>
+    <div class="ts-blob ts-blob-b"></div>
   </div>
-</div>
+
+  <div class="ts-inner">
+    <div class="ts-head ts-reveal" style="--d:0">
+      <h2>See TypeTally in Action</h2>
+      <p>Practice with real commerce content — not random paragraphs.</p>
+    </div>
+
+    <div class="ts-cards">
+      <div class="ts-card ts-card-left ts-reveal" style="--d:1">
+        <div class="ts-glass">
+          <div class="ts-mock-label">Dashboard</div>
+          <div class="ts-dash-top">
+            <div class="ts-ring-wrap">
+              <svg class="ts-ring" viewBox="0 0 100 100">
+                <circle class="ts-ring-bg" cx="50" cy="50" r="42"></circle>
+                <circle class="ts-ring-fill" id="tsRingFill" cx="50" cy="50" r="42"></circle>
+              </svg>
+              <div class="ts-ring-center"><i>LVL</i><b>12</b></div>
+            </div>
+            <div class="ts-dash-stats">
+              <div><b class="ts-countup" data-target="1420">0</b><i>XP</i></div>
+              <div><b class="ts-countup" data-target="97" data-suffix="%">0</b><i>Accuracy</i></div>
+              <div><b class="ts-countup" data-target="18">0</b><i>Day streak</i></div>
+            </div>
+          </div>
+          <div class="ts-graph-label">Weekly progress</div>
+          <svg viewBox="0 0 220 64" class="ts-graph-svg" preserveAspectRatio="none">
+            <polyline class="ts-graph-line" id="tsGraphLine" points="0,50 30,44 60,47 90,28 120,33 150,16 180,20 220,6"></polyline>
+          </svg>
+          <div class="ts-badge-row">
+            <span class="ts-badge">🏆 60 WPM Club</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ts-card ts-card-center ts-reveal" id="tsCenterCard" style="--d:0">
+        <div class="ts-glass ts-center-glass">
+          <div class="ts-mock-chrome">
+            <span></span><span></span><span></span>
+            <div class="ts-mock-tab">TypeTally — Finance &amp; Accounting</div>
+          </div>
+          <div class="ts-mock-stats">
+            <div class="ts-mstat"><b id="tsWpm">0</b><i>WPM</i></div>
+            <div class="ts-mstat ts-mstat-acc"><b id="tsAcc">100%</b><i>Accuracy</i></div>
+            <div class="ts-mstat"><b id="tsMistakes">0</b><i>Mistakes</i></div>
+            <div class="ts-mstat"><b>60s</b><i>Timer</i></div>
+          </div>
+          <div class="ts-mock-passage" id="tsPassage"></div>
+          <div class="ts-mock-progress"><div class="ts-mock-progress-fill" id="tsProgressFill"></div></div>
+          <div class="ts-mock-kbd"><kbd>Tab</kbd> restart passage &nbsp;·&nbsp; <kbd>Esc</kbd> new test</div>
+        </div>
+      </div>
+
+      <div class="ts-card ts-card-right ts-reveal" style="--d:1">
+        <div class="ts-glass">
+          <div class="ts-mock-label">✨ AI Passage Generator</div>
+          <div class="ts-ai-prompt-box">
+            <div class="ts-ai-prompt-label">Prompt</div>
+            <div class="ts-ai-prompt">Generate GST Input Tax Credit Practice</div>
+          </div>
+          <button class="ts-ai-gen-btn" id="tsAiGenBtn"><span class="ts-sparkle">✨</span> Generate passage</button>
+          <div class="ts-ai-output">
+            <div class="ts-shimmer" id="tsShimmer"></div>
+            <div class="ts-ai-text hide" id="tsAiText"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-features">
+      <div class="ts-feat ts-reveal" style="--d:2">
+        <div class="ts-feat-icon">⚡</div>
+        <h3>Real ICAI Practice</h3>
+        <p>Practice GST, Audit, Costing and Taxation passages.</p>
+      </div>
+      <div class="ts-feat ts-reveal" style="--d:2">
+        <div class="ts-feat-icon">🤖</div>
+        <h3>AI Generator</h3>
+        <p>Generate unlimited typing passages instantly.</p>
+      </div>
+      <div class="ts-feat ts-reveal" style="--d:3">
+        <div class="ts-feat-icon">📊</div>
+        <h3>Analytics</h3>
+        <p>Track WPM, Accuracy, Mistakes and Progress.</p>
+      </div>
+      <div class="ts-feat ts-reveal" style="--d:3">
+        <div class="ts-feat-icon">🏆</div>
+        <h3>Leaderboards</h3>
+        <p>Compete with other commerce students.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <section class="land-section" id="features">
   <div class="wrap" style="padding-bottom:0">
@@ -4002,6 +4295,232 @@ if(battleRestartBtn)battleRestartBtn.onclick=function(){initBattle();};
       });
       heroRight.addEventListener('mouseleave', function(){
         laptopWrap.style.transform = 'rotateY(0deg) rotateX(0deg)';
+      });
+    }
+  }
+})();
+
+
+/* ===== PRODUCT SHOWCASE SCRIPT ===== */
+/* ============================================================
+   TYPETALLY — PRODUCT SHOWCASE SCRIPT
+   Wrapped in an IIFE, fully namespaced (ts prefix) — no globals
+   added, cannot collide with existing site JS. Paste into your
+   main <script> block.
+   ============================================================ */
+(function(){
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Scroll reveal ---------- */
+  var revealEls = document.querySelectorAll('#tsShowcase .ts-reveal');
+  if(revealEls.length){
+    if('IntersectionObserver' in window && !reduceMotion){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){ entry.target.classList.add('ts-in'); io.unobserve(entry.target); }
+        });
+      }, {threshold:.15});
+      revealEls.forEach(function(el){ io.observe(el); });
+    } else {
+      revealEls.forEach(function(el){ el.classList.add('ts-in'); });
+    }
+  }
+
+  /* ---------- Count-up numbers (dashboard card) ---------- */
+  var countEls = document.querySelectorAll('#tsShowcase .ts-countup');
+  function animateCount(el){
+    var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+    var suffix = el.getAttribute('data-suffix') || '';
+    if(reduceMotion){ el.textContent = target + suffix; return; }
+    var duration = 1200, startTime = null;
+    function step(ts){
+      if(!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target) + suffix;
+      if(progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  /* Ring + graph fill (dashboard card) */
+  function fillRingAndGraph(){
+    var ring = document.getElementById('tsRingFill');
+    if(ring){
+      var pct = 0.72; // 72% level progress, purely decorative
+      var circumference = 264;
+      ring.style.strokeDashoffset = reduceMotion ? (circumference * (1-pct)) : circumference;
+      if(!reduceMotion){
+        requestAnimationFrame(function(){
+          setTimeout(function(){ ring.style.strokeDashoffset = circumference * (1 - pct); }, 50);
+        });
+      }
+    }
+    var line = document.getElementById('tsGraphLine');
+    if(line){
+      line.style.strokeDashoffset = reduceMotion ? 0 : 400;
+      if(!reduceMotion){
+        requestAnimationFrame(function(){
+          setTimeout(function(){ line.style.strokeDashoffset = 0; }, 50);
+        });
+      }
+    }
+  }
+
+  if(countEls.length || document.getElementById('tsRingFill')){
+    if('IntersectionObserver' in window){
+      var dashCard = document.querySelector('#tsShowcase .ts-card-left');
+      if(dashCard){
+        var dashIo = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if(entry.isIntersecting){
+              countEls.forEach(animateCount);
+              fillRingAndGraph();
+              dashIo.unobserve(entry.target);
+            }
+          });
+        }, {threshold:.35});
+        dashIo.observe(dashCard);
+      }
+    } else {
+      countEls.forEach(animateCount);
+      fillRingAndGraph();
+    }
+  }
+
+  /* ---------- Center card: looping auto-type demo ---------- */
+  var tsPassageEl = document.getElementById('tsPassage');
+  if(tsPassageEl){
+    var TS_SAMPLE = "Input tax credit under GST can be claimed only when the supplier has deposited the tax and filed returns.";
+    var tsSpans = [], tsIdx = 0, tsCorrect = 0, tsRaw = 0, tsMistakes = 0, tsStartT = 0, tsTimer = null;
+
+    function tsRenderPassage(){
+      tsPassageEl.innerHTML = "";
+      var frag = document.createDocumentFragment();
+      for(var i=0;i<TS_SAMPLE.length;i++){
+        var s = document.createElement('span');
+        s.textContent = TS_SAMPLE[i];
+        frag.appendChild(s);
+      }
+      tsPassageEl.appendChild(frag);
+      tsSpans = Array.prototype.slice.call(tsPassageEl.querySelectorAll('span'));
+      tsSetCursor(0);
+    }
+    function tsSetCursor(i){
+      var old = tsPassageEl.querySelector('.cur');
+      if(old) old.classList.remove('cur');
+      if(tsSpans[i]) tsSpans[i].classList.add('cur');
+    }
+    function tsUpdateStats(){
+      var mins = (Date.now() - tsStartT) / 60000;
+      var wpm = mins > 0 ? Math.round((tsCorrect/5)/mins) : 0;
+      var acc = tsRaw > 0 ? Math.round(tsCorrect/tsRaw*100) : 100;
+      var wpmEl = document.getElementById('tsWpm');
+      var accEl = document.getElementById('tsAcc');
+      var mistEl = document.getElementById('tsMistakes');
+      var progEl = document.getElementById('tsProgressFill');
+      if(wpmEl) wpmEl.textContent = wpm;
+      if(accEl) accEl.textContent = acc + "%";
+      if(mistEl) mistEl.textContent = tsMistakes;
+      if(progEl) progEl.style.width = Math.round((tsIdx/tsSpans.length)*100) + "%";
+    }
+    function tsStep(){
+      if(tsIdx >= tsSpans.length){
+        clearInterval(tsTimer);
+        setTimeout(tsRestart, 1600);
+        return;
+      }
+      if(!tsStartT) tsStartT = Date.now();
+      tsRaw++;
+      // Occasionally simulate a brief mistake for realism (~4% chance), except on spaces
+      var isSpace = tsSpans[tsIdx].textContent === " ";
+      var simulateMiss = !isSpace && Math.random() < 0.04;
+      if(simulateMiss){
+        tsSpans[tsIdx].classList.add('err');
+        tsMistakes++;
+      } else {
+        tsSpans[tsIdx].classList.add('ok');
+        tsCorrect++;
+      }
+      tsIdx++;
+      tsSetCursor(tsIdx);
+      tsUpdateStats();
+    }
+    function tsRestart(){
+      tsIdx=0; tsCorrect=0; tsRaw=0; tsMistakes=0; tsStartT=0;
+      var wpmEl = document.getElementById('tsWpm');
+      var accEl = document.getElementById('tsAcc');
+      var mistEl = document.getElementById('tsMistakes');
+      var progEl = document.getElementById('tsProgressFill');
+      if(wpmEl) wpmEl.textContent = "0";
+      if(accEl) accEl.textContent = "100%";
+      if(mistEl) mistEl.textContent = "0";
+      if(progEl) progEl.style.width = "0%";
+      tsRenderPassage();
+      if(!reduceMotion) tsTimer = setInterval(tsStep, 68);
+    }
+    tsRenderPassage();
+    if(!reduceMotion){
+      tsTimer = setInterval(tsStep, 68);
+    } else {
+      // Reduced motion: show a static, fully "typed" passage instead of animating
+      tsSpans.forEach(function(s){ s.classList.add('ok'); });
+      document.getElementById('tsWpm').textContent = "58";
+      document.getElementById('tsMistakes').textContent = "1";
+      document.getElementById('tsProgressFill').style.width = "100%";
+    }
+
+    // Pause the loop when scrolled out of view (saves CPU)
+    if('IntersectionObserver' in window){
+      var centerCard = document.getElementById('tsCenterCard');
+      if(centerCard){
+        new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if(!entry.isIntersecting && tsTimer){ clearInterval(tsTimer); tsTimer = null; }
+            else if(entry.isIntersecting && !tsTimer && !reduceMotion){ tsTimer = setInterval(tsStep, 68); }
+          });
+        }, {threshold:.1}).observe(centerCard);
+      }
+    }
+  }
+
+  /* ---------- Right card: AI generator demo ---------- */
+  var tsAiBtn = document.getElementById('tsAiGenBtn');
+  var tsShimmerEl = document.getElementById('tsShimmer');
+  var tsAiTextEl = document.getElementById('tsAiText');
+  var TS_AI_PASSAGE = "input tax credit under gst can be claimed only when the recipient holds a valid tax invoice and the supplier has actually paid the tax to the government.";
+  if(tsAiBtn && tsShimmerEl && tsAiTextEl){
+    var tsAiRunning = false;
+    tsAiBtn.addEventListener('click', function(){
+      if(tsAiRunning) return;
+      tsAiRunning = true;
+      tsAiTextEl.classList.add('hide');
+      tsShimmerEl.style.display = 'block';
+      tsAiBtn.style.opacity = '.7';
+      setTimeout(function(){
+        tsShimmerEl.style.display = 'none';
+        tsAiTextEl.textContent = TS_AI_PASSAGE;
+        tsAiTextEl.classList.remove('hide');
+        tsAiBtn.style.opacity = '1';
+        tsAiRunning = false;
+      }, 1300);
+    });
+  }
+
+  /* ---------- Subtle mouse parallax on center card ---------- */
+  var tsCenterCard = document.getElementById('tsCenterCard');
+  if(tsCenterCard && !reduceMotion && window.matchMedia('(min-width:901px)').matches){
+    var tsShowcaseSection = document.getElementById('tsShowcase');
+    if(tsShowcaseSection){
+      tsShowcaseSection.addEventListener('mousemove', function(e){
+        var rect = tsCenterCard.getBoundingClientRect();
+        var cx = rect.left + rect.width/2;
+        var cy = rect.top + rect.height/2;
+        var dx = (e.clientX - cx) / rect.width;
+        var dy = (e.clientY - cy) / rect.height;
+        tsCenterCard.style.transform = 'perspective(900px) rotateY(' + (dx*4) + 'deg) rotateX(' + (dy*-4) + 'deg)';
+      });
+      tsShowcaseSection.addEventListener('mouseleave', function(){
+        tsCenterCard.style.transform = 'perspective(900px) rotateY(0deg) rotateX(0deg)';
       });
     }
   }
